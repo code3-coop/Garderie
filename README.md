@@ -10,7 +10,13 @@ Prerequis
 - Install java 10
 - Install gradle
 
-Run
--------------
 
+Run (and watch to restart the app)
+-------------
     gradle bootRun
+
+Build (that could trigger a restart of the app in the other terminal)
+------------
+  gradle build
+
+Once the app is started you may want to load the seed data into you local database.
