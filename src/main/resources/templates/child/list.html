@@ -1,3 +1,10 @@
-<body>
-  child list
-</body>
+<html>
+  <body>
+    <ul>
+      <li th:each="child : ${children}">
+        <span th:text="${child.getFirstname()}"/>
+        <span th:text="${child.getLastname()}"/>
+      </li>
+    </ul>
+  </body>
+</html>

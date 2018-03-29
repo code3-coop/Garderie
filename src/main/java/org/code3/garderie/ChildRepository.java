@@ -23,8 +23,7 @@ public class ChildRepository {
 
   public Child getChildById(long childId) {
     log.info("Get child by id: " + childId);
-    var child = jdbcTemplate.queryForObject(GET_CHILD, new Object[] {childId}, childRowMapper());
-    return child;
+    return jdbcTemplate.queryForObject(GET_CHILD, new Object[] {childId}, childRowMapper());
   }
 
   @Transactional
@@ -33,7 +32,7 @@ public class ChildRepository {
     jdbcTemplate.update(CREATE_CHILD, child.getFirstname(), child.getLastname(), child.getBirthdate(), child.getImage_url(), child.getParents(), child.getGroup());
   }
 
-  public List<Child> getAllChild(){
+  public List<Child> getAllChildren(){
     log.debug("Get list of child");
     return jdbcTemplate.query(LIST_CHILD, childRowMapper());
   }

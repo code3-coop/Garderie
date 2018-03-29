@@ -21,25 +21,25 @@ public class Child {
     this.group = group;
   }
 
-  Long getId(){
+  public Long getId(){
     return id;
   }
-  String getFirstname(){
+  public String getFirstname(){
     return firstname;
   }
-  String getLastname(){
+  public String getLastname(){
     return lastname;
   }
-  Date getBirthdate(){
+  public Date getBirthdate(){
     return birthdate;
   }
-  String getImage_url(){
+  public String getImage_url(){
     return image_url;
   }
-  Long getParents(){
+  public Long getParents(){
     return parents;
   }
-  Long getGroup(){
+  public Long getGroup(){
     return group;
   }
 
