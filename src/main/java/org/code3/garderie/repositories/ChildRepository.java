@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChildRepository {
 
   private static final Logger log = LoggerFactory.getLogger(ChildRepository.class);
-  public static String GET_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child where id = ?;";
-  public static String CREATE_CHILD = "insert into child (firstname, lastname, birthdate, image_url, parents, \"group\") values (?, ?, ?, ?, ?, ?);";
-  public static String LIST_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child;";
+  private static final String GET_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child where id = ?;";
+  private static final String CREATE_CHILD = "insert into child (firstname, lastname, birthdate, image_url, parents, \"group\") values (?, ?, ?, ?, ?, ?);";
+  private static final String LIST_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child;";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
 
   public Child getChildById(long childId) {
-    log.info("Get child by id: " + childId);
+    log.debug("Get child by id: " + childId);
     return jdbcTemplate.queryForObject(GET_CHILD, new Object[] {childId}, childRowMapper());
   }
 
@@ -30,7 +30,7 @@ public class ChildRepository {
   public void createChild(Child child){
     log.debug("Create child");
     jdbcTemplate.update(CREATE_CHILD, child.getFirstname(), child.getLastname(), child.getBirthdate(), child.getImage_url(), child.getParents(), child.getGroup());
-  }
+  }//XXX This should return a complete child (with Id)
 
   public List<Child> getAllChildren(){
     log.debug("Get list of child");
