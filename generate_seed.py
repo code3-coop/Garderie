@@ -4,7 +4,7 @@ import datetime, calendar, sys, random
 #=======================
 
 family_names      = ['Tremblay','Gagnon','Roy','Bouchard','Gauthier','Morin','Lavoie','Fortin','Gagné']
-female_firstnames = ['Stéphanie','Vanessa','Catherine']
+female_firstnames = ['Stéphanie','Vanessa','Catherine','Nadine','Caroline','Annie']
 male_firstnames   = ['Maxime','Alexandre','Jonathan','Mathieu','David','Simon','Sébastien','Vincent','Michael','Samuel']
 kid_firstnames    = [['William','Nathan','Thomas','Jacob','Olivier','Felix','Antoine','Liam','Noah','Xavier'],
                      ['Lea','Emma','Olivia','Florence','Alice','Zoe','Rosalie','Juliette','Chloé','Eva']]
