@@ -17,6 +17,7 @@ public class ChildRepository {
   private static final String GET_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child where id = ?;";
   private static final String CREATE_CHILD = "insert into child (firstname, lastname, birthdate, image_url, parents, \"group\") values (?, ?, ?, ?, ?, ?);";
   private static final String LIST_CHILD = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child;";
+  private static final String GET_CHILDREN_BY_GROUP = "select id, firstname, lastname, birthdate, image_url, parents, \"group\" from child where \"group\" = ?;";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
@@ -28,13 +29,18 @@ public class ChildRepository {
 
   @Transactional
   public void createChild(Child child){
-    log.debug("Create child");
+    log.debug("Create child "+ child.toString());
     jdbcTemplate.update(CREATE_CHILD, child.getFirstname(), child.getLastname(), child.getBirthdate(), child.getImage_url(), child.getParents(), child.getGroup());
   }//XXX This should return a complete child (with Id)
 
   public List<Child> getAllChildren(){
     log.debug("Get list of child");
-    return jdbcTemplate.query(LIST_CHILD, childRowMapper());
+    return jdbcTemplate.query(LIST_CHILD,childRowMapper());
+  }
+
+  public List<Child> getChildrenByGroup(Group group){
+    log.debug("getChildrenByGroup" + group);
+    return jdbcTemplate.query(GET_CHILDREN_BY_GROUP, new Object[]{group.getId()}, childRowMapper());
   }
 
   private RowMapper<Child> childRowMapper(){

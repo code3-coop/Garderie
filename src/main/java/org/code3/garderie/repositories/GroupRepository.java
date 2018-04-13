@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class GroupRepository {
   private static final Logger log = LoggerFactory.getLogger(GroupRepository.class);

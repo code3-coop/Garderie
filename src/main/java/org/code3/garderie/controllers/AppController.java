@@ -8,17 +8,21 @@ import java.util.Date;
 import org.springframework.ui.ModelMap;
 
 @Controller
-public class ChildController {
+public class AppController {
 
   @Autowired
   ChildRepository childRepository;
 
-  @GetMapping("/child/list")
-  public String list(ModelMap model){
+  @Autowired
+  PresenceRepository presenceRepository;
+
+  @RequestMapping("/")
+  public String index() {
     var group = new Group(1l, "", "");
-    var childs = childRepository.getChildrenByGroup(group);
-    model.addAttribute("children", childRepository.getAllChildren());
-    return "/child/list";
+    var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), group);
+    System.out.println("PRESENCE " + presences.size());
+    // return "";
+    return "redirect:/child/list";
   }
 
 }

@@ -14,18 +14,24 @@ public class PresenceRepository {
   private static final Logger log = LoggerFactory.getLogger(PresenceRepository.class);
   private static final String GET_PRESENCE_BY_CHILD_AND_DATE = "select date, state, child, absence_reason, author from presence where child = ? and date = ?";
   private static final String CREATE_PRESENCE = "insert into presence (date, state, child, absence_reason, author) values (?, ?, ?, ?, ?);";
-  private static final String GET_PRESENCE_BY_DATE = "select date, state, child, absence_reason, author from presence where date = ?";
   private static final String GET_PRESENCE_BY_CHILD = "select date, state, child, absence_reason, author from presence where child = ?";
+  private static final String GET_PRESENCE_BY_DATE_AND_GROUP = "" +
+    "select p.date, p.state, p.child, p.absence_reason, p.author " +
+    "from presence p " +
+    "join child c on c.id = p.child " +
+    "where date = ? " +
+    "and c.group = ?;";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
 
-  public List<Presence> getPresenceByDate(Date date){
-    log.debug("Get presence by date "+ date.toString());
-    return jdbcTemplate.query(GET_PRESENCE_BY_DATE, new Object[] {date}, presenceRowMapper());
+  public List<Presence> getPresenceByDateAndGroup(Date date, Group group){
+    log.debug("getPresenceByDate " + date.toString() + " " + group.toString());
+    return jdbcTemplate.query(GET_PRESENCE_BY_DATE_AND_GROUP, new Object[] {date, group.getId()}, presenceRowMapper());
   }
 
   public void createPresence(Presence presence){
+    log.debug("createPresence " + presence.toString());
     jdbcTemplate.update(CREATE_PRESENCE, presence.getDate(), presence.getState(), presence.getChild(), presence.getAbsenceReason(), presence.getAuthor());
   }
 
