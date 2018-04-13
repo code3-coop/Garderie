@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.ModelMap;
 
 @Controller
@@ -16,13 +17,23 @@ public class PresenceController{
   @Autowired
   private PresenceRepository presenceRepository;
 
-  @GetMapping("/presence/")
+  @Autowired
+  private ChildRepository childRepository;
+
+  @GetMapping("/presence")
   public String index(ModelMap model){
     var myGroup = new Group(1l, "", "");
-    // var children = childRepository();
+    var children = childRepository.getChildrenByGroup(myGroup);
     var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), myGroup);
     model.addAttribute("presences", presences);
     return "presence/index";
   }
+
+  // @PostMapping("presence/:groupId/")
+  // public String updatePresence(ModelMap model){
+  //
+  //   return "presence/index"
+  // }
+
 
 }
