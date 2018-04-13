@@ -24,82 +24,17 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="home"></span>
-                  Tableau de bord
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="clipboard"></span>
-                  Mes groupes
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Mes enfants
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="calendar"></span>
-                  Calendrier
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Rapports
-                </a>
-              </li>
-            </ul>
-
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Liens rapides</span>
-            </h6>
-            <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="file-text"></span>
-                  Prise de présence <span class="sr-only">(current)</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <div th:replace="fragments/menu :: menu"></div>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Prise de présence</h1>
+            <h1 class="h2">Listes d'enfants</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Partager</button>
                 <button class="btn btn-sm btn-outline-secondary">Exporter</button>
               </div>
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                Cette semaine
-              </button>
             </div>
-          </div>
-
-
-          <div class="card-deck mb-3 text-center">
-
-            <div class="card mb-4 box-shadow" th:each="child : ${children}">
-              <div class="card-header">
-                <h4 class="my-0 font-weight-normal" th:text="${child.getFirstname()}">Le nom</h4>
-              </div>
-              <div class="card-body">
-                <img src="/img/noAvatar.png" style="width:200px; height:200px"/>
-              </div>
-            </div>
-
           </div>
 
 
@@ -127,12 +62,6 @@
         </main>
       </div>
     </div>
-    <ul>
-      <li th:each="child : ${children}">
-        <span th:text="${child.getFirstname()}"/>
-        <span th:text="${child.getLastname()}"/>
-      </li>
-    </ul>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="/js/bootstrap.min.js"></script>
 
