@@ -25,5 +25,4 @@ public class ChildController {
     model.addAttribute("children", childRepository.getAllChildren());
     return "/child/list";
   }
-
 }
