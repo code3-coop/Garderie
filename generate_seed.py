@@ -23,11 +23,11 @@ def loadImageUrls():
     list = os.listdir('src/main/resources/public/img/avatars/male/')
     male_images = []
     for file in list:
-        male_images.append("img/avatars/male/" + file)
+        male_images.append("/img/avatars/male/" + file)
     list = os.listdir('src/main/resources/public/img/avatars/female/')
     female_images = []
     for file in list:
-        female_images.append("img/avatars/female/" + file)
+        female_images.append("/img/avatars/female/" + file)
     return male_images,female_images
 
 def getRangeDate(now):
@@ -90,7 +90,6 @@ def loadDatabase(queries):
     conn = psycopg2.connect("dbname=garderie")
     cur = conn.cursor()
     for query in queries:
-        print(query)
         cur.execute(query)
     conn.commit()
     cur.close()

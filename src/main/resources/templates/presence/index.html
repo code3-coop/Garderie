@@ -46,15 +46,13 @@
 
             <div class="card mb-4 box-shadow" th:each="child : ${presences}">
               <div class="card-header">
-                <h4 class="my-0 font-weight-normal" th:text="${child.getChild()}">Le nom</h4>
+                <h4 class="my-0 font-weight-normal" th:text="${children.?[id == __${child.getChild()}__][0].getFirstname()}">Le nom</h4>
               </div>
               <div class="card-body">
-                <img src="/img/noAvatar.png" style="width:200px; height:200px"/>
+                <img th:src="${children.?[id == __${child.getChild()}__][0].getImage_url()}" style="width:200px; height:200px"/>
               </div>
             </div>
-
           </div>
-
 
           <button type="button" class="btn btn-lg btn-block btn-outline-primary">Soumettre</button>
 
@@ -71,4 +69,3 @@
     </script>
   </body>
 </html>
-

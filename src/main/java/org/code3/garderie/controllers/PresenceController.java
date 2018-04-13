@@ -26,6 +26,7 @@ public class PresenceController{
     var children = childRepository.getChildrenByGroup(myGroup);
     var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), myGroup);
     model.addAttribute("presences", presences);
+    model.addAttribute("children", children);
     return "presence/index";
   }
 
