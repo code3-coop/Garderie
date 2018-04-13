@@ -16,7 +16,7 @@ public class AppController {
   @Autowired
   PresenceRepository presenceRepository;
 
-  @RequestMapping("/")
+  // @RequestMapping("/")
   public String index() {
     var group = new Group(1l, "", "");
     var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), group);
