@@ -1,0 +1,48 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar" th:fragment="menu">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span data-feather="home"></span>
+          Tableau de bord
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span data-feather="clipboard"></span>
+          Mes groupes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/child/list">
+          <span data-feather="users"></span>
+          Mes enfants
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span data-feather="calendar"></span>
+          Calendrier
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span data-feather="bar-chart-2"></span>
+          Rapports
+        </a>
+      </li>
+    </ul>
+
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+      <span>Liens rapides</span>
+    </h6>
+    <ul class="nav flex-column mb-2">
+      <li class="nav-item">
+        <a class="nav-link active" href="/presence">
+          <span data-feather="file-text"></span>
+          Prise de présence <span class="sr-only">(current)</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
