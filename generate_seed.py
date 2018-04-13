@@ -1,21 +1,34 @@
-import datetime, calendar, sys, random
+import datetime, calendar, sys, random, os, psycopg2
 #=======================
 #= Generate sample data
 #=======================
 
-family_names      = ['Tremblay','Gagnon','Roy','Bouchard','Gauthier','Morin','Lavoie','Fortin','Gagné']
+family_names      = ['Tremblay','Gagnon','Roy','Bouchard','Gauthier','Morin','Lavoie','Fortin','Gagné','Nadeau','Leclerc','Desjardins','Boudreau','Paradis']
 female_firstnames = ['Stéphanie','Vanessa','Catherine','Nadine','Caroline','Annie']
 male_firstnames   = ['Maxime','Alexandre','Jonathan','Mathieu','David','Simon','Sébastien','Vincent','Michael','Samuel']
-kid_firstnames    = [['William','Nathan','Thomas','Jacob','Olivier','Felix','Antoine','Liam','Noah','Xavier'],
+child_firstnames  = [['William','Nathan','Thomas','Jacob','Olivier','Felix','Antoine','Liam','Noah','Xavier'],
                      ['Lea','Emma','Olivia','Florence','Alice','Zoe','Rosalie','Juliette','Chloé','Eva']]
-educator_names    = ["Sylvie"]
-group_names       = ["Tulipes"]
+groups            = [{"name":"Tulipes","educator":"Chantal"},
+                     {"name":"Papillons","educator":"Katia"}]
 absence_reasons   = ['Malade','Congé','Autre']
 area_codes        = [514,450]
-number_of_groups  = 1
-number_of_kids    = 7
-
+number_of_childs  = 7
+male              = 0
+female            = 1
+image_urls        = []
+queries           = []
 now = datetime.datetime.now()
+
+def loadImageUrls():
+    list = os.listdir('src/main/resources/public/img/avatars/male/')
+    male_images = []
+    for file in list:
+        male_images.append("img/avatars/male/" + file)
+    list = os.listdir('src/main/resources/public/img/avatars/female/')
+    female_images = []
+    for file in list:
+        female_images.append("img/avatars/female/" + file)
+    return male_images,female_images
 
 def getRangeDate(now):
     month = now.month
@@ -56,45 +69,73 @@ def createInsertGroupSQL(group_id,group_name,educator_name):
 def createInsertParentSQL(parent_id,parent_1_name,parent_2_name,parent_1_phone,parent_2_phone):
     return "insert into parents (id, parent_1_name, parent_2_name, parent_1_phone, parent_2_phone) values (%d,'%s','%s','%s','%s');" % (parent_id,parent_1_name,parent_2_name,parent_1_phone,parent_2_phone)
 
-def createInsertChildSQL(kid_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id):
-    return "insert into child (id, firstname, lastname, birthdate, image_url, parents, \"group\") values (%d,'%s','%s','%s','%s',%d,%d);" % (kid_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
+def createInsertChildSQL(child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id):
+    return "insert into child (id, firstname, lastname, birthdate, image_url, parents, \"group\") values (%d,'%s','%s','%s','%s',%d,%d);" % (child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
 
-def createInsertAttendanceSQL(current_date,state,kid_id,reason,last_modification,author):
-    return "insert into presence (date, state, child, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,kid_id,reason,current_date,author)
+def createInsertAttendanceSQL(current_date,state,child_id,reason,last_modification,author):
+    return "insert into presence (date, state, child, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
 
+def resetDatabase():
+    conn = psycopg2.connect("dbname=garderie")
+    cur = conn.cursor()
+    cur.execute("truncate presence CASCADE")
+    cur.execute("truncate child CASCADE")
+    cur.execute("truncate parents CASCADE")
+    cur.execute("truncate \"group\" CASCADE")
+    conn.commit()
+    cur.close()
+    conn.close()
 
-(first_day,last_day) = getRangeDate(now)
+def loadDatabase(queries):
+    conn = psycopg2.connect("dbname=garderie")
+    cur = conn.cursor()
+    for query in queries:
+        print(query)
+        cur.execute(query)
+    conn.commit()
+    cur.close()
+    conn.close()
 
-group_id = 1
-parent_id = 1
-kid_id = 1
-for group_name in group_names:
-    educator_name = getRandomName(educator_names)
-    print(createInsertGroupSQL(group_id,group_name,educator_name))
-    for kids_id in range(1,number_of_kids+1):
+if __name__ == '__main__':
+    image_urls = loadImageUrls()
+    (first_day,last_day) = getRangeDate(now)
+    group_id = 1
+    parent_id = 1
+    child_id = 1
 
-        #build parents
-        saved_name = getRandomName(family_names)
-        parent_1_name = getRandomName(male_firstnames) + " " + saved_name
-        parent_2_name = getRandomName(female_firstnames) + " " + getRandomName(family_names)
-        parent_1_phone = getRandomPhoneNumber(area_codes)
-        parent_2_phone = getRandomPhoneNumber(area_codes)
-        print(createInsertParentSQL(parent_id,parent_1_name,parent_2_name,parent_1_phone,parent_2_phone))
+    for group in groups:
+        queries.append(createInsertGroupSQL(group_id,group["name"],group["educator"]))
+        for i in range(1,number_of_childs+1):
 
-        #build kid
-        kid_name = saved_name
-        kid_firstname = getRandomName(kid_firstnames[random.randint(0,len(kid_firstnames)-1)])
-        kid_birthdate = getRandomBirthdate()
-        print(createInsertChildSQL(kid_id, kid_firstname, kid_name, kid_birthdate, 'null', parent_id, group_id))
+            #= build parents
+            saved_name = getRandomName(family_names)
+            parent_1_name = getRandomName(male_firstnames) + " " + saved_name
+            parent_2_name = getRandomName(female_firstnames) + " " + getRandomName(family_names)
+            parent_1_phone = getRandomPhoneNumber(area_codes)
+            parent_2_phone = getRandomPhoneNumber(area_codes)
+            queries.append(createInsertParentSQL(parent_id,parent_1_name,parent_2_name,parent_1_phone,parent_2_phone))
 
-        #Attendance
-        delta = last_day - first_day
-        for i in range(delta.days + 1):
-            current_date = first_day + datetime.timedelta(days=i)
-            state = getRandomState()
-            reason = getRandomReason(state,absence_reasons)
-            author = educator_name
-            print(createInsertAttendanceSQL(current_date,state,kid_id,reason,current_date,author))
+            #= build kid
+            child_name = saved_name
+            child_type = random.randint(0,len(child_firstnames)-1)
+            child_image_url = getRandomName(image_urls[child_type])
+            child_firstname = getRandomName(child_firstnames[child_type])
+            child_birthdate = getRandomBirthdate()
+            queries.append(createInsertChildSQL(child_id, child_firstname, child_name, child_birthdate, child_image_url, parent_id, group_id))
 
-        parent_id += 1
-        kid_id +=1
+            #= Attendance
+            delta = last_day - first_day
+            for j in range(delta.days + 1):
+                current_date = first_day + datetime.timedelta(days=j)
+                state = getRandomState()
+                reason = getRandomReason(state,absence_reasons)
+                queries.append(createInsertAttendanceSQL(current_date,state,child_id,reason,current_date,group["educator"]))
+
+            parent_id += 1
+            child_id +=1
+
+        group_id +=1
+
+    #= Load data into database
+    resetDatabase()
+    loadDatabase(queries)
