@@ -22,18 +22,12 @@ public class PresenceController{
 
   @GetMapping("/presence")
   public String index(ModelMap model){
+    //TODO this group should be fetched from
+    //current user instead of
     var myGroup = new Group(1l, "", "");
-    var children = childRepository.getChildrenByGroup(myGroup);
     var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), myGroup);
     model.addAttribute("presences", presences);
     return "presence/index";
   }
-
-  // @PostMapping("presence/:groupId/")
-  // public String updatePresence(ModelMap model){
-  //
-  //   return "presence/index"
-  // }
-
 
 }

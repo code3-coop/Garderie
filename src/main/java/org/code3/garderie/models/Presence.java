@@ -5,13 +5,13 @@ import java.util.Date;
 public class Presence{
   private Date date;
   private String state;
-  private long child;
+  private Child child;
   private String absence_reason;
   //XXX found out what is the complete class path for DateTime
   // private DateTime last_modification;
   private String author;
 
-  public Presence(Date date, String state, long child, String absence_reason, String author){
+  public Presence(Date date, String state, Child child, String absence_reason, String author){
     this.date = date;
     this.state = state;
     this.child = child;
@@ -24,7 +24,7 @@ public class Presence{
   public String getState(){
     return state;
   }
-  public Long getChild(){
+  public Child getChild(){
     return child;
   }
   public String getAbsenceReason(){

@@ -20,4 +20,5 @@ public class Group {
   public String getEducator(){
     return educator;
   }
+
 }
