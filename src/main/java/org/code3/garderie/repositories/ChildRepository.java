@@ -30,7 +30,7 @@ public class ChildRepository {
   @Transactional
   public void createChild(Child child){
     log.debug("Create child "+ child.toString());
-    jdbcTemplate.update(CREATE_CHILD, child.getFirstname(), child.getLastname(), child.getBirthdate(), child.getImage_url(), child.getParents(), child.getGroup());
+    jdbcTemplate.update(CREATE_CHILD, child.getFirstname(), child.getLastname(), child.getBirthdate(), child.getImageUrl(), child.getParents(), child.getGroup());
   }//XXX This should return a complete child (with Id)
 
   public List<Child> getAllChildren(){

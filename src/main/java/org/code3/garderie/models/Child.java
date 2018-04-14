@@ -7,16 +7,16 @@ public class Child {
   private String firstname;
   private String lastname;
   private Date birthdate;
-  private String image_url;
+  private String imageUrl;
   private long parents;
   private long group;
 
-  Child(long id, String firstname, String lastname, Date birthdate, String image_url, long parents, long group){
+  Child(long id, String firstname, String lastname, Date birthdate, String imageUrl, long parents, long group){
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.birthdate = birthdate;
-    this.image_url = image_url;
+    this.imageUrl = imageUrl;
     this.parents = parents;
     this.group = group;
   }
@@ -33,8 +33,8 @@ public class Child {
   public Date getBirthdate(){
     return birthdate;
   }
-  public String getImage_url(){
-    return image_url;
+  public String getImageUrl(){
+    return imageUrl;
   }
   public Long getParents(){
     return parents;
