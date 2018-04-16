@@ -38,8 +38,8 @@ public class PresenceRepository {
   private final RowMapper<ChildRow> childRowMapper = (rs, rowNum) -> {
     return new ChildRow(
       rs.getLong("id"),
-      rs.getString("lastname"),
       rs.getString("firstname"),
+      rs.getString("lastname"),
       rs.getString("image_url")
     );
   };
