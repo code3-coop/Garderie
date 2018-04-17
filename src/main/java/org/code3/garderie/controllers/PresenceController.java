@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class PresenceController{
@@ -27,7 +28,19 @@ public class PresenceController{
     var myGroup = new Group(1l, "", "");
     var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), myGroup);
     model.addAttribute("presences", presences);
+    model.addAttribute("todayAsString", "2018-04-01");
     return "presence/index";
   }
+
+  @PostMapping("/presence")
+  public String update(@ModelAttribute("child_id") Long child_id,
+                       @ModelAttribute("presence") String presence,
+                       @ModelAttribute("date") String date){
+    log.debug("I'm posted here ");
+
+    log.info("params {}, {}, {}", child_id, presence, date);
+    return "redirect:/presence";
+  }
+
 
 }

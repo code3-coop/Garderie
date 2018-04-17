@@ -44,7 +44,6 @@ public class PresenceRepository {
     );
   };
 
-
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -74,7 +73,7 @@ public class PresenceRepository {
         });
       }).collect(Collectors.toList());
   }
-
+  // public void
 
   private class PresenceRow {
     public Date date;
@@ -117,11 +116,5 @@ public class PresenceRepository {
       );
     }
   }
-
-  //should return an id
-  // public void createPresence(Presence presence){
-  //   log.debug("createPresence " + presence.toString());
-  //   namedParameterJdbcTemplate.update(CREATE_PRESENCE, presence.getDate(), presence.getState(), presence.getChild(), presence.getAbsenceReason(), presence.getAuthor());
-  // }
 
 }
