@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Controller
 public class PresenceController{
@@ -37,7 +39,7 @@ public class PresenceController{
                        @ModelAttribute("state") String state,
                        @ModelAttribute("date") String date,
                        @ModelAttribute("absenceReason") String absenceReason){
-    log.info("params {}, {}, {}", child_id, date, absenceReason);
+    log.info("update {}, {}, {}", child_id, date, absenceReason);
     //XXX here the user name should be taken from session
     var currentUserName = "moi";
     var child = childRepository.getChildById(child_id);
@@ -47,5 +49,16 @@ public class PresenceController{
     return "redirect:/presence";
   }
 
-
+  @GetMapping("/presence/{child_id}/{from}/{to}")
+  public String getPresenceByChildBetweenTwoDate(
+    @PathVariable("child_id") Long childId,
+    @PathVariable("from") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date from,
+    @PathVariable("to") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date to
+  ){
+      log.debug("getPresenceByChildBetweenTwoDate {} {} {}", childId, from, to);
+      var child = childRepository.getChildById(childId);
+      var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
+      log.info("------- {}", presences);
+      return "redirect:/presence";
+  }
 }

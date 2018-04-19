@@ -66,6 +66,18 @@ public class PresenceRepository {
     "  :author" +
     ");";
 
+  private static final String GET_PRESENCE_BY_CHILD_BETWEEN_TWO_DATES = "" +
+  "select " +
+  "  date," +
+  "  child_id," +
+  "  state," +
+  "  absence_reason," +
+  "  author"+
+  " from presence " +
+  " where" +
+  "  child_id = :child_id and" +
+  "  date > :from and" +
+  "  date < :to;";
 
   private final RowMapper<PresenceRow> presenceRowMapper = (rs, rowNum) -> {
     return new PresenceRow(
@@ -116,6 +128,7 @@ public class PresenceRepository {
       }).collect(Collectors.toList());
   }
   public void createOrUpdate(Presence presence){
+    log.debug("createOrUpdate {}", presence);
     Map<String, Object> params1 = Map.of(
       "date", presence.getDate(),
       "child_id", presence.getChild().getId()
@@ -134,6 +147,23 @@ public class PresenceRepository {
     );
     namedParameterJdbcTemplate.update(stmt, params2);
 
+  }
+  public List<Presence> getPresenceByChildBetweenTwoDates(Child child, Date from, Date to){
+    Map<String, Object> presenceParams = Map.of(
+      "child_id", child.getId(),
+      "from", from,
+      "to", to
+    );
+    return namedParameterJdbcTemplate
+    .query(GET_PRESENCE_BY_CHILD_BETWEEN_TWO_DATES, presenceParams, this.presenceRowMapper)
+    .stream()
+    .map(row -> new Presence(
+        row.date,
+        row.state,
+        child,
+        row.absence_reason,
+        row.author
+      )).collect(Collectors.toList());
   }
 
   private class PresenceRow {
