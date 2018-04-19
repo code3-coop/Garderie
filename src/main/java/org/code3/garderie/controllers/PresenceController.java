@@ -34,11 +34,16 @@ public class PresenceController{
 
   @PostMapping("/presence")
   public String update(@ModelAttribute("child_id") Long child_id,
-                       @ModelAttribute("presence") String presence,
-                       @ModelAttribute("date") String date){
-    log.debug("I'm posted here ");
+                       @ModelAttribute("state") String state,
+                       @ModelAttribute("date") String date,
+                       @ModelAttribute("absenceReason") String absenceReason){
+    log.info("params {}, {}, {}", child_id, date, absenceReason);
+    //XXX here the user name should be taken from session
+    var currentUserName = "moi";
+    var child = childRepository.getChildById(child_id);
+    var presence = new Presence(new Date(), state, child, absenceReason, currentUserName);
+    presenceRepository.createOrUpdate(presence);
 
-    log.info("params {}, {}, {}", child_id, presence, date);
     return "redirect:/presence";
   }
 

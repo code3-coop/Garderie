@@ -16,20 +16,62 @@ public class PresenceRepository {
   private static final Logger log = LoggerFactory.getLogger(PresenceRepository.class);
 
   private static final String GET_PRESENCE_BY_DATE_AND_GROUP = "" +
-    "select p.date, p.state, p.child, p.absence_reason, p.author " +
+    "select "+
+    "  p.date as date, "+
+    "  p.state as state, "+
+    "  p.child_id as child_id, "+
+    "  p.absence_reason as absence_reason, "+
+    "  p.author as author " +
     "from presence p " +
-    "join child c on c.id = p.child " +
+    "join child c on c.id = p.child_id " +
     "where date = :date " +
     "and c.group = :groupId;";
 
   private static final String GET_CHILDREN_IN_LIST = "" +
     "select id, firstname, lastname, image_url from child where id in (:childrenIds)";
 
+  private static final String UPDATE_PRESENCE = "" +
+    "update presence set " +
+    " state = :state," +
+    " absence_reason = :absence_reason, " +
+    " author = :author "+
+    "where "+
+    "date = :date and " +
+    "child_id = :child_id;";
+
+  private static final String GET_PRESENCE_BY_CHILD_AND_DATE = "" +
+    "select " +
+    "  date," +
+    "  state," +
+    "  child_id," +
+    "  absence_reason," +
+    "  author " +
+    "from presence where " +
+    "date = :date and " +
+    "child_id = :child_id;";
+
+  private static final String INSERT_PRESENCE = "" +
+    "insert into presence"+
+    "("+
+    "  date,"+
+    "  state,"+
+    "  child_id," +
+    "  absence_reason,"+
+    "  author" +
+    " ) values ("+
+    "  :date,"+
+    "  :state,"+
+    "  :child_id," +
+    "  :absence_reason,"+
+    "  :author" +
+    ");";
+
+
   private final RowMapper<PresenceRow> presenceRowMapper = (rs, rowNum) -> {
     return new PresenceRow(
       rs.getDate("date"),
       rs.getString("state"),
-      rs.getLong("child"),
+      rs.getLong("child_id"),
       rs.getString("absence_reason"),
       rs.getString("author")
     );
@@ -73,7 +115,26 @@ public class PresenceRepository {
         });
       }).collect(Collectors.toList());
   }
-  // public void
+  public void createOrUpdate(Presence presence){
+    Map<String, Object> params1 = Map.of(
+      "date", presence.getDate(),
+      "child_id", presence.getChild().getId()
+    );
+
+    var currentPresence = namedParameterJdbcTemplate.query(GET_PRESENCE_BY_CHILD_AND_DATE, params1, this.presenceRowMapper);
+    //if presenceIsAlreadyDefined
+    var stmt = currentPresence.size() > 0 ? UPDATE_PRESENCE : INSERT_PRESENCE;
+    Map<String, Object> params2 = Map.of(
+      "date", presence.getDate(),
+      "child_id", presence.getChild().getId(),
+      "author", presence.getAuthor(),
+      "state", presence.getState(),
+      "absence_reason", presence.getAbsenceReason(),
+      "last_modification", new Date()
+    );
+    namedParameterJdbcTemplate.update(stmt, params2);
+
+  }
 
   private class PresenceRow {
     public Date date;
