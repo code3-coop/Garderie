@@ -73,7 +73,7 @@ def createInsertChildSQL(child_id, kid_firstname, kid_name, kid_birthdate, image
     return "insert into child (id, firstname, lastname, birthdate, image_url, parents, \"group\") values (%d,'%s','%s','%s','%s',%d,%d);" % (child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
 
 def createInsertAttendanceSQL(current_date,state,child_id,reason,last_modification,author):
-    return "insert into presence (date, state, child, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
+    return "insert into presence (date, state, child_id, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
 
 def resetDatabase():
     conn = psycopg2.connect("dbname=garderie")
