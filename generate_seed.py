@@ -70,7 +70,7 @@ def createInsertParentSQL(parent_id,parent_1_name,parent_2_name,parent_1_phone,p
     return "insert into parents (id, parent_1_name, parent_2_name, parent_1_phone, parent_2_phone) values (%d,'%s','%s','%s','%s');" % (parent_id,parent_1_name,parent_2_name,parent_1_phone,parent_2_phone)
 
 def createInsertChildSQL(child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id):
-    return "insert into child (id, firstname, lastname, birthdate, image_url, parents, \"group\") values (%d,'%s','%s','%s','%s',%d,%d);" % (child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
+    return "insert into child (id, firstname, lastname, birthdate, image_url, parents, group_id) values (%d,'%s','%s','%s','%s',%d,%d);" % (child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
 
 def createInsertAttendanceSQL(current_date,state,child_id,reason,last_modification,author):
     return "insert into presence (date, state, child_id, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
