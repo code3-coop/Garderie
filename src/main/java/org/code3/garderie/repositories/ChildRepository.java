@@ -1,15 +1,16 @@
 package org.code3.garderie;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
-import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Map;
 
 @Service
 public class ChildRepository {
@@ -56,15 +57,24 @@ public class ChildRepository {
     "from child;";
 
   private static final String GET_CHILDREN_BY_GROUP = ""+
+    "select "+
+    " id, "+
+    " firstname, "+
+    " lastname, "+
+    " birthdate, "+
+    " image_url, "+
+    " parents, "+
+    " \"group\" "+
+    "from child where \"group\" = :group_id;";
+
+  private static final String GET_GROUP_BY_ID = "" +
   "select "+
-  " id, "+
-  " firstname, "+
-  " lastname, "+
-  " birthdate, "+
-  " image_url, "+
-  " parents, "+
-  " \"group\" "+
-  "from child where \"group\" = :group_id;";
+  "  id, "+
+  "  name, "+
+  "  educator "+
+  "from group "+
+  "where " +
+  "  id = :group_id; ";
 
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -74,7 +84,38 @@ public class ChildRepository {
     Map<String, Long> params = Map.of(
       "child_id", childId
     );
-    return namedParameterJdbcTemplate.query(GET_CHILD, params, childRowMapper()).get(0);
+    List<ChildRow> childrenRows =  namedParameterJdbcTemplate.query(GET_CHILD, params, childRowMapper());
+
+    var groupId = childrenRows
+      .stream()
+      .map(childRow -> childRow.group_id)
+      .findFirst()
+      .get();
+
+    Map<String, Object> groupParams = Map.of(
+      "groupId", groupId
+    );
+
+    var group = namedParameterJdbcTemplate
+      .query(GET_GROUP_BY_ID, groupParams, groupRowMapper())
+      .stream()
+      .findFirst()
+      .get();
+
+    return childrenRows
+    .stream()
+    .limit(1)
+    .map(childRow -> new Child(
+      childRow.id,
+      childRow.firstname,
+      childRow.lastname,
+      childRow.birthdate,
+      childRow.image_url,
+      childRow.parents,
+      group
+    ))
+    .findFirst()
+    .get();
   }
 
   @Transactional
@@ -93,7 +134,20 @@ public class ChildRepository {
 
   public List<Child> getAllChildren(){
     log.debug("Get list of child");
-    return namedParameterJdbcTemplate.query(LIST_CHILD,childRowMapper());
+
+
+    return namedParameterJdbcTemplate
+    .query(LIST_CHILD,childRowMapper())
+    .stream()
+    .map( childRow -> new Child(
+      childRow.id,
+      childRow.firstname,
+      childRow.lastname,
+      childRow.birthdate,
+      childRow.image_url,
+      childRow.parents,
+      childRow.group_id
+    ));
   }
 
   public List<Child> getChildrenByGroup(Group group){
@@ -101,27 +155,59 @@ public class ChildRepository {
     Map<String, Object> params = Map.of(
       "group_id", group.getId()
     );
-    return namedParameterJdbcTemplate.query(GET_CHILDREN_BY_GROUP, params, childRowMapper());
+    return namedParameterJdbcTemplate
+    .query(GET_CHILDREN_BY_GROUP, params, childRowMapper())
+    .stream()
+    .map(childRow -> new Child(
+      childRow.id,
+      childRow.firstname,
+      childRow.lastname,
+      childRow.birthdate,
+      childRow.image_url,
+      childRow.parents,
+      group
+    )).collect(Collectors.toList());
   }
 
-  private RowMapper<Child> childRowMapper(){
-    return (rs, rowNum) -> new Child(
+  private RowMapper<ChildRow> childRowMapper(){
+    return (rs, rowNum) -> new ChildRow(
       rs.getLong("id"),
       rs.getString("firstname"),
       rs.getString("lastname"),
       rs.getDate("birthdate"),
       rs.getString("image_url"),
       rs.getLong("parents"),
-      rs.getLong("group")
+      rs.getLong("group_id")
     );
   }
-  // private class ChildRow {
-  //   Long id;
-  //   String firstname;
-  //   String lastname;
-  //   Date birthdate;
-  //   String image_url;
-  //   Long parents;
-  //   Long group;
-  // };
+
+  private RowMapper<Group> groupRowMapper(){
+    return (rs, rowNum) -> new Group(
+      rs.getLong("id"),
+      rs.getString("name"),
+      rs.getString("educator")
+    );
+  }
+
+  private class ChildRow {
+    Long id;
+    String firstname;
+    String lastname;
+    Date birthdate;
+    String image_url;
+    Long parents;
+    Long group_id;
+
+    public ChildRow(Long id, String firstname, String lastname, Date birthdate, String image_url, Long parents, Long group_id){
+      this.id = id;
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.birthdate = birthdate;
+      this.image_url = image_url;
+      this.parents = parents;
+      this.group_id = group_id;
+    }
+
+  };
+
 }

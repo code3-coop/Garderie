@@ -9,9 +9,9 @@ public class Child {
   private Date birthdate;
   private String imageUrl;
   private long parents;
-  private long group;
+  private Group group;
 
-  Child(long id, String firstname, String lastname, Date birthdate, String imageUrl, long parents, long group){
+  Child(long id, String firstname, String lastname, Date birthdate, String imageUrl, long parents, Group group){
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
@@ -39,7 +39,7 @@ public class Child {
   public Long getParents(){
     return parents;
   }
-  public Long getGroup(){
+  public Group getGroup(){
     return group;
   }
 

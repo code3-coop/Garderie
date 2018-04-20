@@ -39,7 +39,7 @@ public class PresenceController{
                        @ModelAttribute("state") String state,
                        @ModelAttribute("date") String date,
                        @ModelAttribute("absenceReason") String absenceReason){
-    log.info("update {}, {}, {}", child_id, date, absenceReason);
+    log.debug("update {}, {}, {}", child_id, date, absenceReason);
     //XXX here the user name should be taken from session
     var currentUserName = "moi";
     var child = childRepository.getChildById(child_id);
