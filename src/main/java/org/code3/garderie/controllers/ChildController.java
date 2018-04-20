@@ -22,7 +22,9 @@ public class ChildController {
     log.debug("list ");
     var group = new Group(1l, "", "");
     var childs = childRepository.getChildrenByGroup(group);
+
     model.addAttribute("children", childRepository.getAllChildren());
+
     return "/child/list";
   }
 }

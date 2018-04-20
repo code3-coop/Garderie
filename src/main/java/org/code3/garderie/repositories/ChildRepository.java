@@ -24,7 +24,7 @@ public class ChildRepository {
     " birthdate, "  +
     " image_url, "  +
     " parents, "  +
-    " \"group\" "  +
+    " group_id "  +
     "from child "  +
     " where id = :child_id;";
 
@@ -35,7 +35,7 @@ public class ChildRepository {
     " birthdate, " +
     " image_url, " +
     " parents, " +
-    " \"group\"" +
+    " group_id " +
     ") values (" +
     " :firstname, " +
     " :lastname, " +
@@ -53,7 +53,7 @@ public class ChildRepository {
     " birthdate, "+
     " image_url, "+
     " parents, "+
-    " \"group\" "+
+    " group_id "+
     "from child;";
 
   private static final String GET_CHILDREN_BY_GROUP = ""+
@@ -64,17 +64,26 @@ public class ChildRepository {
     " birthdate, "+
     " image_url, "+
     " parents, "+
-    " \"group\" "+
-    "from child where \"group\" = :group_id;";
+    " group_id "+
+    "from child where group_id = :group_id;";
 
   private static final String GET_GROUP_BY_ID = "" +
-  "select "+
-  "  id, "+
-  "  name, "+
-  "  educator "+
-  "from group "+
-  "where " +
-  "  id = :group_id; ";
+    "select "+
+    "  id, "+
+    "  name, "+
+    "  educator "+
+    "from group "+
+    "where " +
+    "  id = :group_id; ";
+
+  private static final String GET_GROUP_BY_ID_LIST = "" +
+    "select "+
+    "  id, "+
+    "  name, "+
+    "  educator "+
+    "from \"group\" "+
+    "where " +
+    "  id in (:group_ids) ";
 
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -136,18 +145,38 @@ public class ChildRepository {
     log.debug("Get list of child");
 
 
-    return namedParameterJdbcTemplate
-    .query(LIST_CHILD,childRowMapper())
+    var childRows = namedParameterJdbcTemplate.query(LIST_CHILD,childRowMapper());
+
+    var groupIds = childRows
     .stream()
-    .map( childRow -> new Child(
-      childRow.id,
-      childRow.firstname,
-      childRow.lastname,
-      childRow.birthdate,
-      childRow.image_url,
-      childRow.parents,
-      getGroupById(childRow.group_id)
-    )).collect(Collectors.toList());
+    .map(childRow -> childRow.group_id)
+    .collect(Collectors.toList());
+
+    Map<String,List<Long>> groupParams = Map.of(
+      "group_ids", groupIds
+    );
+
+    List<Group> groups = namedParameterJdbcTemplate.query(GET_GROUP_BY_ID_LIST, groupParams, groupRowMapper());
+
+    return childRows
+    .stream()
+    .map( childRow -> {
+      var group = groups
+        .stream()
+        .filter(currentGroup -> currentGroup.getId().equals(childRow.group_id))
+        .findFirst()
+        .get();
+
+      return new Child(
+        childRow.id,
+        childRow.firstname,
+        childRow.lastname,
+        childRow.birthdate,
+        childRow.image_url,
+        childRow.parents,
+        group);
+    })
+    .collect(Collectors.toList());
   }
 
   private Group getGroupById(Long id){
