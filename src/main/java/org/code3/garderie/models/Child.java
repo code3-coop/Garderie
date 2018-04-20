@@ -43,4 +43,18 @@ public class Child {
     return group;
   }
 
+  @Override
+  public String toString(){
+    var sb = new StringBuilder();
+    sb.add("Child" + "\n");
+    sb.add("  id: " id + "\n");
+    sb.add("  firstname" + firstname + "\n");
+    sb.add("  lastname" + lastname + "\n");
+    sb.add("  birthdate" + birthdate + "\n");
+    sb.add("  imageUrl" + imageUrl + "\n");
+    sb.add("  parents" + parents + "\n");
+    sb.add("  group" + group + "\n");
+    return sb.toString();
+  }
+
 }
