@@ -1,5 +1,6 @@
 package org.code3.garderie;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -41,14 +42,14 @@ public class PresenceController{
   @PostMapping("/presence")
   public String update(@ModelAttribute("child_id") Long child_id,
                        @ModelAttribute("state") String state,
-                       @ModelAttribute("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date date,
+                       @ModelAttribute("date") String date,
                        @ModelAttribute("absenceReason") String absenceReason,
                        HttpSession session){
     log.debug("update {}, {}, {}", child_id, date, absenceReason);
 
     String username = (String) session.getAttribute("username");
     var child = childRepository.getChildById(child_id);
-    var presence = new Presence(date, state, child, absenceReason, username);
+    var presence = new Presence(toDate(date), state, child, absenceReason, username);
     presenceRepository.createOrUpdate(presence);
 
     return "redirect:/presence";
@@ -65,5 +66,16 @@ public class PresenceController{
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
 
       return "redirect:/presence";
+  }
+  //XXX SHAME ON YOU
+  private Date toDate(String dateAsString){
+    try{
+      var dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+      return dateFormat.parse(dateAsString);
+    } catch(Exception e){
+      log.error("Failed to convert a date to iso format {}", dateAsString);
+      return new Date();
+    }
+
   }
 }
