@@ -26,7 +26,7 @@
       <div class="row">
         <div th:replace="fragments/menu :: menu"></div>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 bg-light">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1 class="h2">Prise de présence</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
@@ -36,7 +36,7 @@
               </div>
               <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                 <span data-feather="calendar"></span>
-                Cette semaine
+                Aujourd'hui
               </button>
             </div>
           </div>
@@ -45,9 +45,6 @@
           <div class="card-deck mb-3 text-center">
 
             <div class="card mb-4 box-shadow" th:each="presence : ${presences}">
-              <div class="card-header">
-                <h4 class="my-0 font-weight-normal" th:text="${presence.getChild().getFirstname()}">Le nom</h4>
-              </div>
               <div class="card-body">
 
                 <form th:action="@{/presence}" method="POST">
@@ -55,11 +52,22 @@
                   <input type="hidden" name="child_id" th:value="${presence.getChild().getId()}"/>
                   <input type="hidden" name="date" th:value="${todayAsString}"/>
                   <a href="#" onclick="this.parentNode.submit()">
-                    <img th:src="@{${presence.getChild().getImageUrl()}}" style="width:200px; height:200px"/>
+                    <img th:src="@{${presence.getChild().getImageUrl()}}" style="width:150px; height:150px" class="rounded-circle"/>
+                    <div class="clearfix"></div>
                   </a>
+
+                  <div class="clearfix"></div>
+                  <strong class="my-0 font-weight-normal pt-3" >
+                    <span th:text="${presence.getChild().getFirstname()}">Prénom</span>
+                    <span th:text="${presence.getChild().getLastname()}">Nom</span>
+                  </strong>
                 </form>
               </div>
-            </div>
+                <div class="statePresence">
+                  <span th:style="${presence.getState()} == 'P' ? 'display:none' : ''" data-feather="check"></span>
+                  <span th:style="${presence.getState()} == 'P' ? '' : 'display:none'" data-feather="x" class="red"></span>
+                  <span th:text="${presence.getState()} == 'P' ? 'Absent' : 'Présent'">Présent</span></div>
+            </div> <!-- end card-body -->
           </div>
 
           <button type="button" class="btn btn-lg btn-block btn-outline-primary">Soumettre</button>

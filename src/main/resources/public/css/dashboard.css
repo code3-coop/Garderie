@@ -7,7 +7,29 @@ body {
   height: 16px;
   vertical-align: text-bottom;
 }
+#main{
+  
+}
+.card{
+  flex:none !important;
+  border:0px solid #000 !important;
+}
+.clearfix{
+  clear:both;
+}
+.statePresence{
+  border-top:1px solid rgba(0,0,0,.125); 
+  font-size: 0.9em;
+  color: #666;
+  padding:10px
 
+}
+.red{
+  color:red;
+}
+.green{
+  color:green;
+}
 /*
  * Sidebar
  */
