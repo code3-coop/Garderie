@@ -72,7 +72,7 @@ public class ChildRepository {
     "  id, "+
     "  name, "+
     "  educator "+
-    "from group "+
+    "from \"group\" "+
     "where " +
     "  id = :group_id; ";
 
@@ -102,7 +102,7 @@ public class ChildRepository {
       .get();
 
     Map<String, Object> groupParams = Map.of(
-      "groupId", groupId
+      "group_id", groupId
     );
 
     var group = namedParameterJdbcTemplate
