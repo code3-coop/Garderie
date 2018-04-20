@@ -32,4 +32,17 @@ public class Presence{
   public String getAuthor(){
     return author;
   }
+
+  @Override
+  public String toString(){
+    var sb = new StringBuilder();
+    sb.append("Presence" + "\n");
+    sb.append("  date: " + date + "\n");
+    sb.append("  state" + state + "\n");
+    sb.append("  child" + child + "\n");
+    sb.append("  absence_reason" + absence_reason + "\n");
+    sb.append("  last_modification" + last_modification + "\n");
+    sb.append("  author" + author + "\n");
+    return sb.toString();
+  }
 }
