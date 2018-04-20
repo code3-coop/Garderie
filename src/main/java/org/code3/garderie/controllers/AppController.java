@@ -1,14 +1,18 @@
 package org.code3.garderie;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Date;
+import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AppController {
+
+  private static final Logger log = LoggerFactory.getLogger(AppController.class);
 
   @Autowired
   ChildRepository childRepository;
@@ -16,13 +20,13 @@ public class AppController {
   @Autowired
   PresenceRepository presenceRepository;
 
-  // @RequestMapping("/")
-  public String index() {
-    var group = new Group(1l, "", "");
-    var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), group);
-    System.out.println("PRESENCE " + presences.size());
-    // return "";
-    return "redirect:/child/list";
+  @GetMapping("/")
+  public String index(HttpSession session) {
+    log.info("Session {} {}", session, session.getAttribute("username"));
+    if(session.getAttribute("username") == null){
+      return "redirect:/login";
+    }
+    return "redirect:/presence";
   }
 
 }

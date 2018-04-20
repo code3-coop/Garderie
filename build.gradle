@@ -7,8 +7,11 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("org.springframework.session:spring-session-jdbc")
 
     compile("org.springframework.boot:spring-boot-devtools")
+
+
     compile("org.flywaydb:flyway-core:5.0.7")
     compile("org.postgresql:postgresql:42.2.2")
 }
