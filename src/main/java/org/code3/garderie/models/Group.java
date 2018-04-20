@@ -21,4 +21,14 @@ public class Group {
     return educator;
   }
 
+  @Override
+  public String toString(){
+    var sb = new StringBuilder();
+    sb.append("Group" + "\n");
+    sb.append("  id: " + id + "\n");
+    sb.append("  name" + name + "\n");
+    sb.append("  educator" + educator + "\n");
+    return sb.toString();
+  }
+
 }
