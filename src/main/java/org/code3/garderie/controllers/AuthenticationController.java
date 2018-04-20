@@ -26,7 +26,7 @@ public class AuthenticationController {
                       HttpSession session){
     log.debug("login {}", username);
     session.setAttribute("username", username);
-
+    session.setAttribute("group", username.equals("Chantal") ? new Long(1) : new Long(2));
     return "redirect:/presence";
   }
 
