@@ -7,8 +7,7 @@ public class Presence{
   private String state;
   private Child child;
   private String absence_reason;
-  //XXX found out what is the complete class path for DateTime
-  // private DateTime last_modification;
+  private Date last_modification;
   private String author;
 
   public Presence(Date date, String state, Child child, String absence_reason, String author){

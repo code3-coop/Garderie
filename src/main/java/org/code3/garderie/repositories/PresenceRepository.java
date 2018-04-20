@@ -17,11 +17,12 @@ public class PresenceRepository {
 
   private static final String GET_PRESENCE_BY_DATE_AND_GROUP = "" +
     "select "+
-    "  p.date as date, "+
-    "  p.state as state, "+
-    "  p.child_id as child_id, "+
-    "  p.absence_reason as absence_reason, "+
-    "  p.author as author " +
+    "  p.date, "+
+    "  p.state, "+
+    "  p.child_id, "+
+    "  p.absence_reason, "+
+    "  p.author, " +
+    " p.last_modification " +
     "from presence p " +
     "join child c on c.id = p.child_id " +
     "where date = :date " +
@@ -34,7 +35,8 @@ public class PresenceRepository {
     "update presence set " +
     " state = :state," +
     " absence_reason = :absence_reason, " +
-    " author = :author "+
+    " author = :author, "+
+    " last_modification = :last_modification " +
     "where "+
     "date = :date and " +
     "child_id = :child_id;";
@@ -45,7 +47,8 @@ public class PresenceRepository {
     "  state," +
     "  child_id," +
     "  absence_reason," +
-    "  author " +
+    "  author, " +
+    "  last_modification " +
     "from presence where " +
     "date = :date and " +
     "child_id = :child_id;";
@@ -57,13 +60,15 @@ public class PresenceRepository {
     "  state,"+
     "  child_id," +
     "  absence_reason,"+
-    "  author" +
+    "  author," +
+    "  last_modification " +
     " ) values ("+
     "  :date,"+
     "  :state,"+
     "  :child_id," +
     "  :absence_reason,"+
-    "  :author" +
+    "  :author, " +
+    "  :last_modification" +
     ");";
 
   private static final String GET_PRESENCE_BY_CHILD_BETWEEN_TWO_DATES = "" +
@@ -72,7 +77,8 @@ public class PresenceRepository {
   "  child_id," +
   "  state," +
   "  absence_reason," +
-  "  author"+
+  "  author,"+
+  "  last_modification " +
   " from presence " +
   " where" +
   "  child_id = :child_id and" +
@@ -85,7 +91,8 @@ public class PresenceRepository {
       rs.getString("state"),
       rs.getLong("child_id"),
       rs.getString("absence_reason"),
-      rs.getString("author")
+      rs.getString("author"),
+      rs.getDate("last_modification")
     );
   };
 
@@ -104,7 +111,10 @@ public class PresenceRepository {
   public List<Presence> getPresenceByDateAndGroup(Date date, Group group){
     log.debug("getPresenceByDate {} {}", date,  group);
 
-    Map params = Map.of("date", date, "groupId", group.getId());
+    Map params = Map.of(
+      "date", date,
+      "groupId", group.getId()
+    );
     List<PresenceRow> presenceRows = namedParameterJdbcTemplate.query(GET_PRESENCE_BY_DATE_AND_GROUP, params, this.presenceRowMapper);
 
     var childrenIds = presenceRows.stream().map((presenceRow) -> presenceRow.child_id).collect(Collectors.toList());
@@ -172,13 +182,15 @@ public class PresenceRepository {
     public long child_id;
     public String absence_reason;
     public String author;
+    public Date last_modification;
 
-    PresenceRow(Date date, String state, long child_id, String absence_reason, String author){
+    PresenceRow(Date date, String state, long child_id, String absence_reason, String author, Date last_modification){
       this.date = date;
       this.state = state;
       this.child_id = child_id;
       this.absence_reason = absence_reason;
       this.author = author;
+      this.last_modification = last_modification;
     }
   }
 
