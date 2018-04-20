@@ -46,14 +46,14 @@ public class Child {
   @Override
   public String toString(){
     var sb = new StringBuilder();
-    sb.add("Child" + "\n");
-    sb.add("  id: " id + "\n");
-    sb.add("  firstname" + firstname + "\n");
-    sb.add("  lastname" + lastname + "\n");
-    sb.add("  birthdate" + birthdate + "\n");
-    sb.add("  imageUrl" + imageUrl + "\n");
-    sb.add("  parents" + parents + "\n");
-    sb.add("  group" + group + "\n");
+    sb.append("Child" + "\n");
+    sb.append("  id: " + id + "\n");
+    sb.append("  firstname" + firstname + "\n");
+    sb.append("  lastname" + lastname + "\n");
+    sb.append("  birthdate" + birthdate + "\n");
+    sb.append("  imageUrl" + imageUrl + "\n");
+    sb.append("  parents" + parents + "\n");
+    sb.append("  group" + group + "\n");
     return sb.toString();
   }
 
