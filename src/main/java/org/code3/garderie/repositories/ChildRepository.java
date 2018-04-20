@@ -89,7 +89,7 @@ public class ChildRepository {
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   public Child getChildById(long childId) {
-    log.debug("Get child by id: " + childId);
+    log.debug("getChildById {}",  childId);
     Map<String, Long> params = Map.of(
       "child_id", childId
     );
@@ -129,7 +129,7 @@ public class ChildRepository {
 
   @Transactional
   public void createChild(Child child){
-    log.debug("Create child "+ child.toString());
+    log.debug("createChild {}", child.toString());
     Map<String, Object> params = Map.of(
       "firstname", child.getFirstname(),
       "lastname", child.getLastname(),
@@ -142,8 +142,7 @@ public class ChildRepository {
   }//XXX This should return a complete child (with Id)
 
   public List<Child> getAllChildren(){
-    log.debug("Get list of child");
-
+    log.debug("getAllChildren");
 
     var childRows = namedParameterJdbcTemplate.query(LIST_CHILD,childRowMapper());
 

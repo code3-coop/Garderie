@@ -1,16 +1,17 @@
 package org.code3.garderie;
 
 import java.util.Date;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Controller
 public class PresenceController{
@@ -23,12 +24,15 @@ public class PresenceController{
   @Autowired
   private ChildRepository childRepository;
 
+  @Autowired
+  private GroupRepository groupRepository;
+
   @GetMapping("/presence")
-  public String index(ModelMap model){
-    //TODO this group should be fetched from
-    //current user instead of
-    var myGroup = new Group(1l, "", "");
-    var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), myGroup);
+  public String index(ModelMap model, HttpSession session){
+    log.debug("index");
+    var groupId = (Long) session.getAttribute("group");
+    var group = groupRepository.getGroupById(groupId);
+    var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), group);
     model.addAttribute("presences", presences);
     model.addAttribute("todayAsString", "2018-04-01");
     return "presence/index";

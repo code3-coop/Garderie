@@ -17,6 +17,7 @@ public class AuthenticationController {
 
   @GetMapping("/login")
   public String index() {
+    log.debug("index");
     return "/login/login";
   }
 
@@ -32,7 +33,7 @@ public class AuthenticationController {
 
   @GetMapping("/logout")
   public String logout(HttpSession session){
-    log.debug("logout {}", session.getAttribute("username"));
+    log.debug("logout");
     session.invalidate();
     return "redirect:/";
   }

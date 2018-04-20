@@ -23,7 +23,7 @@ public class ChildController {
 
   @GetMapping("/child/list")
   public String list(ModelMap model, HttpSession session){
-    log.debug("list ");
+    log.debug("list");
     Long groupId = (Long) session.getAttribute("group");
     var group = groupRepository.getGroupById(groupId);
     var children = childRepository.getChildrenByGroup(group);

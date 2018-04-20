@@ -22,7 +22,7 @@ public class AppController {
 
   @GetMapping("/")
   public String index(HttpSession session) {
-    log.info("Session {} {}", session, session.getAttribute("username"));
+    log.debug("index");
     if(session.getAttribute("username") == null){
       return "redirect:/login";
     }

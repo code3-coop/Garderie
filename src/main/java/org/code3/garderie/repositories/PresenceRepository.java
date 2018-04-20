@@ -163,6 +163,7 @@ public class PresenceRepository {
   }
 
   public List<Presence> getPresenceByChildBetweenTwoDates(Child child, Date from, Date to){
+    log.debug("getPresenceByChildBetweenTwoDates {} {} {}", child, from, to);
     Map<String, Object> presenceParams = Map.of(
       "child_id", child.getId(),
       "from", from,

@@ -32,11 +32,13 @@ public class GroupRepository {
   @Autowired
   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-  public List<Group>getAllGroup(){
+  public List<Group> getAllGroup(){
+    log.debug("getAllGroup");
     return namedParameterJdbcTemplate.query(GET_ALL_GROUP, groupRowMapper());
   }
 
   public Group getGroupById(Long groupId){
+    log.debug("getGroupById {}", groupId);
     Map<String, Long> params = Map.of("group_id", groupId);
     return namedParameterJdbcTemplate
       .query(GET_GROUP_BY_ID, params, groupRowMapper())
