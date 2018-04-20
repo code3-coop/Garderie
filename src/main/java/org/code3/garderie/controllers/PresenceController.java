@@ -58,7 +58,7 @@ public class PresenceController{
       log.debug("getPresenceByChildBetweenTwoDate {} {} {}", childId, from, to);
       var child = childRepository.getChildById(childId);
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
-      log.info("------- {}", presences);
+
       return "redirect:/presence";
   }
 }
