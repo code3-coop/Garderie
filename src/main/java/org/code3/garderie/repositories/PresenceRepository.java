@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PresenceRepository {
@@ -72,18 +73,18 @@ public class PresenceRepository {
     ");";
 
   private static final String GET_PRESENCE_BY_CHILD_BETWEEN_TWO_DATES = "" +
-  "select " +
-  "  date," +
-  "  child_id," +
-  "  state," +
-  "  absence_reason," +
-  "  author,"+
-  "  last_modification " +
-  " from presence " +
-  " where" +
-  "  child_id = :child_id and" +
-  "  date > :from and" +
-  "  date < :to;";
+    "select " +
+    "  date," +
+    "  child_id," +
+    "  state," +
+    "  absence_reason," +
+    "  author,"+
+    "  last_modification " +
+    " from presence " +
+    " where" +
+    "  child_id = :child_id and" +
+    "  date > :from and" +
+    "  date < :to;";
 
   private final RowMapper<PresenceRow> presenceRowMapper = (rs, rowNum) -> {
     return new PresenceRow(
@@ -137,6 +138,8 @@ public class PresenceRepository {
         });
       }).collect(Collectors.toList());
   }
+
+  @Transactional
   public void createOrUpdate(Presence presence){
     log.debug("createOrUpdate {}", presence);
     Map<String, Object> params1 = Map.of(
@@ -158,6 +161,7 @@ public class PresenceRepository {
     namedParameterJdbcTemplate.update(stmt, params2);
 
   }
+
   public List<Presence> getPresenceByChildBetweenTwoDates(Child child, Date from, Date to){
     Map<String, Object> presenceParams = Map.of(
       "child_id", child.getId(),
