@@ -27,7 +27,7 @@ public class PresenceRepository {
     "from presence p " +
     "join child c on c.id = p.child_id " +
     "where date = :date " +
-    "and c.group = :groupId;";
+    "and c.group_id = :groupId;";
 
   private static final String GET_CHILDREN_IN_LIST = "" +
     "select id, firstname, lastname, image_url from child where id in (:childrenIds)";
@@ -219,7 +219,7 @@ public class PresenceRepository {
         null,
         this.image_url,
         0,
-        0
+        null
       );
     }
   }

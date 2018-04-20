@@ -146,8 +146,19 @@ public class ChildRepository {
       childRow.birthdate,
       childRow.image_url,
       childRow.parents,
-      childRow.group_id
-    ));
+      getGroupById(childRow.group_id)
+    )).collect(Collectors.toList());
+  }
+
+  private Group getGroupById(Long id){
+    Map<String, Object> groupParams = Map.of(
+      "groupId", id
+    );
+    return namedParameterJdbcTemplate
+      .query(GET_GROUP_BY_ID, groupParams, groupRowMapper())
+      .stream()
+      .findFirst()
+      .get();
   }
 
   public List<Child> getChildrenByGroup(Group group){
