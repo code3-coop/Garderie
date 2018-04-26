@@ -76,7 +76,7 @@ def createInsertAttendanceSQL(current_date,state,child_id,reason,last_modificati
     return "insert into presence (date, state, child_id, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
 
 def resetDatabase():
-    conn = psycopg2.connect("dbname=garderie")
+    conn = psycopg2.connect(dbname=os.environ["POSTGRES_DB"], user=os.environ.get("POSTGRES_USERNAME"), password=os.environ.get("POSTGRES_PASSWORD"), host=os.environ.get("POSTGRES_HOST"), port=os.environ.get("POSTGRES_PORT"))
     cur = conn.cursor()
     cur.execute("truncate presence CASCADE")
     cur.execute("truncate child CASCADE")
