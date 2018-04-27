@@ -20,13 +20,13 @@ services:
       POSTGRES_DB: garderie
     restart: always
 
-  # build_webapp:
-  #   image: openjdk:10-jdk
-  #   command: './gradlew help --console plain'
-  #   working_dir: /app
-  #   volumes:
-  #     - .:/app
-  #     - ./docker_volumes/.gradle_build:/root/.gradle
+  build_webapp:
+    image: openjdk:10-jdk
+    command: './gradlew build --project-cache-dir /root/.gradle'
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./docker_volumes/build_webapp/.gradle_build:/root/.gradle
 
   garderie_db:
       image: postgres:9.6-alpine
