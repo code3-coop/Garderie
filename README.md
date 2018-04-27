@@ -27,4 +27,12 @@ Seed data generation
 
 Seed data can be generated and pushed to you local db.
 
-  docker up seed_generator
+  docker-compose up seed_generator
+
+Presence initialisation
+------------------------
+
+This system requires that presence are created auto-magically
+Do do so, on each day we need to run the following command
+
+  docker-compose up init_presence
