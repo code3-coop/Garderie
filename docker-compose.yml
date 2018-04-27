@@ -42,23 +42,23 @@ services:
       restart: always
 
 # ## add a service for seed-generator
-#   seed_generator:
-#     image: python:3-slim
-#     container_name: seed_generator
-#     depends_on:
-#       - garderie_db
-#     volumes:
-#       - .:/app
-#       - ./docker_volumes/site-packages:/site-packages
-#     working_dir: /app
-#     command:
-#       sh scripts/generate_seed/run.sh
-#     environment:
-#       POSTGRES_HOST: garderie_db
-#       POSTGRES_PORT: 5432
-#       POSTGRES_USERNAME: postgres
-#       POSTGRES_PASSWORD: postgres
-#       POSTGRES_DB: garderie
+  seed_generator:
+    image: python:3-slim
+    container_name: seed_generator
+    depends_on:
+      - garderie_db
+    volumes:
+      - .:/app
+      - ./docker_volumes/site-packages:/site-packages
+    working_dir: /app
+    command:
+      sh scripts/generate_seed/run.sh
+    environment:
+      POSTGRES_HOST: garderie_db
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: garderie
 # ## add a service for init-presence
 #   init_presence:
 #     image: groovy:2.4.15-jre8-alpine

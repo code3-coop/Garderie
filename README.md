@@ -9,11 +9,12 @@ Prerequis
 - Create a database inside that is called garderie
 - Install java 10
 - Install gradle
+- install docker for mac
 
 
 Run (and watch to restart the app)
 -------------
-    gradle bootRun
+    docker-compose up webapp
 
 Build (that could trigger a restart of the app in the other terminal)
 ------------
@@ -26,5 +27,4 @@ Seed data generation
 
 Seed data can be generated and pushed to you local db.
 
-  pip3 install psycopg2-binary
-  python3 generate_seed.py
+  docker up seed_generator
