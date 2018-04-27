@@ -1,4 +1,6 @@
-import datetime, calendar, sys, random, os, psycopg2
+import datetime, calendar, sys, random, os, psycopg2, time
+
+
 #=======================
 #= Generate sample data
 #=======================
@@ -87,7 +89,7 @@ def resetDatabase():
     conn.close()
 
 def loadDatabase(queries):
-    conn = psycopg2.connect("dbname=garderie")
+    conn = psycopg2.connect(dbname=os.environ["POSTGRES_DB"], user=os.environ.get("POSTGRES_USERNAME"), password=os.environ.get("POSTGRES_PASSWORD"), host=os.environ.get("POSTGRES_HOST"), port=os.environ.get("POSTGRES_PORT"))
     cur = conn.cursor()
     for query in queries:
         cur.execute(query)
@@ -135,6 +137,23 @@ if __name__ == '__main__':
 
         group_id +=1
 
-    #= Load data into database
+def run():
     resetDatabase()
     loadDatabase(queries)
+
+def retry(cb, taskName, nbRetry, waitingTime):
+    try:
+        if nbRetry > 0:
+            cb()
+            print(f"Completed task {taskName}")
+        else:
+            print(f"Failed to run task {taskName}")
+            return 1
+    except Exception as e:
+        print(f"Failed to run {taskName}")
+        print(e)
+        print(f"Will retry {taskName} in {waitingTime}ms")
+        time.slept(waitingTime)
+        retry(cb, taskName, nbRetry - 1, waitingTime)
+
+retry(run, "generate_seed", 5, 10000)

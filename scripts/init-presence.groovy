@@ -75,7 +75,7 @@ retry =  {cb, taskDesc, nbTimes,  waitingTime ->
     }
   } catch ( Exception  e) {
     println "Failed to run task: $taskDesc "
-    e.printStackTrace()
+    println e.message
     println "Will retry in $waitingTime ms"
     Thread.sleep(waitingTime)
     retry(cb, taskDesc, nbTimes - 1, waitingTime)

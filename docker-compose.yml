@@ -41,6 +41,7 @@ services:
       - postgres
     volumes:
       - .:/app
+      - ./docker_volumes/site-packages:/site-packages
     working_dir: /app
     command:
       sh scripts/generate_seed/run.sh
