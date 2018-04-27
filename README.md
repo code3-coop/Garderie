@@ -4,11 +4,6 @@ Garderie
 
 Prerequis
 -----------
-
-- Install postgres 9
-- Create a database inside that is called garderie
-- Install java 10
-- Install gradle
 - install docker for mac
 
 
@@ -18,7 +13,7 @@ Run (and watch to restart the app)
 
 Build (that could trigger a restart of the app in the other terminal)
 ------------
-  gradle build
+  docker-compose up build_webapp
 
 Once the app is started you may want to load the seed data into you local database.
 
