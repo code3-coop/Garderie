@@ -4,23 +4,31 @@ services:
     container_name: 'garderie_webapp'
     image: openjdk:10-jdk
     depends_on:
-      - postgres
+      - garderie_db
     ports:
       - 8090:8080
     command: './gradlew bootRun'
     working_dir: /app
     volumes:
       - .:/app
-      - ~/.gradle:/root/.gradle
+      - ./docker_volumes/.gradle:/root/.gradle
     environment:
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: garderie_db
       POSTGRES_PORT: 5432
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: garderie
     restart: always
 
-  postgres:
+  # build_webapp:
+  #   image: openjdk:10-jdk
+  #   command: './gradlew help --console plain'
+  #   working_dir: /app
+  #   volumes:
+  #     - .:/app
+  #     - ./docker_volumes/.gradle_build:/root/.gradle
+
+  garderie_db:
       image: postgres:9.6-alpine
       ports:
         - 5432:5432
@@ -33,38 +41,38 @@ services:
         POSTGRES_DB: garderie
       restart: always
 
-## add a service for seed-generator
-  seed_generator:
-    image: python:3-slim
-    container_name: seed_generator
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
-      - ./docker_volumes/site-packages:/site-packages
-    working_dir: /app
-    command:
-      sh scripts/generate_seed/run.sh
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: garderie
-## add a service for init-presence
-  init_presence:
-    image: groovy:2.4.15-jre8-alpine
-    container_name: init_presence
-    working_dir: /app
-    depends_on:
-      - postgres
-    volumes:
-      - .:/app
-      - ~/.grapes:/home/groovy/.groovy/grapes
-    command: 'groovy scripts/init-presence.groovy'
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: garderie
+# ## add a service for seed-generator
+#   seed_generator:
+#     image: python:3-slim
+#     container_name: seed_generator
+#     depends_on:
+#       - garderie_db
+#     volumes:
+#       - .:/app
+#       - ./docker_volumes/site-packages:/site-packages
+#     working_dir: /app
+#     command:
+#       sh scripts/generate_seed/run.sh
+#     environment:
+#       POSTGRES_HOST: garderie_db
+#       POSTGRES_PORT: 5432
+#       POSTGRES_USERNAME: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: garderie
+# ## add a service for init-presence
+#   init_presence:
+#     image: groovy:2.4.15-jre8-alpine
+#     container_name: init_presence
+#     working_dir: /app
+#     depends_on:
+#       - garderie_db
+#     volumes:
+#       - .:/app
+#       - ./docker_volumes/.grapes:/home/groovy/.groovy/grapes
+#     command: 'groovy scripts/init-presence.groovy'
+#     environment:
+#       POSTGRES_HOST: garderie_db
+#       POSTGRES_PORT: 5432
+#       POSTGRES_USERNAME: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: garderie

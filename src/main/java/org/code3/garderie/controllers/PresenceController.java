@@ -61,13 +61,15 @@ public class PresenceController{
   public String getPresenceByChildBetweenTwoDate(
     @PathVariable("child_id") Long childId,
     @PathVariable("from") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date from,
-    @PathVariable("to") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date to
+    @PathVariable("to") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date to,
+    ModelMap model
   ){
       log.debug("getPresenceByChildBetweenTwoDate {} {} {}", childId, from, to);
       var child = childRepository.getChildById(childId);
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
-
-      return "redirect:/presence";
+      model.addAttribute("child", child);
+      model.addAttribute("presences", presences);
+      return "presence/calendar.html";
   }
   //XXX SHAME ON YOU
   private Date toDate(String dateAsString){

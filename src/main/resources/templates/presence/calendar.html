@@ -1,0 +1,13 @@
+<body>
+  <div>
+    <span th:text="${child.getFirstname()}"/>&nbsp;
+    <span th:text="${child.getLastname()}" />
+  </div>
+  <ul>
+    <li th:each=" presence : ${presences}">
+      <span th:text="${presence.date}"/>
+      &nbsp;
+      <span th:text="${presence.status}">
+    </li>
+  </ul>
+</body>
