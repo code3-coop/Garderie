@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import java.text.SimpleDateFormat;
 
 @Controller
 public class PresenceController{
@@ -31,11 +32,12 @@ public class PresenceController{
   @GetMapping("/presence")
   public String index(ModelMap model, HttpSession session){
     log.debug("index");
+    var today =  new Date();
     var groupId = (Long) session.getAttribute("group");
     var group = groupRepository.getGroupById(groupId);
-    var presences = presenceRepository.getPresenceByDateAndGroup(new Date(), group);
+    var presences = presenceRepository.getPresenceByDateAndGroup(today, group);
     model.addAttribute("presences", presences);
-    model.addAttribute("todayAsString", "2018-04-01");
+    model.addAttribute("todayAsString", new SimpleDateFormat("yyyy-MM-dd").format(today));
     return "presence/index";
   }
 
