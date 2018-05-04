@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PresenceController{
@@ -68,7 +72,8 @@ public class PresenceController{
       var child = childRepository.getChildById(childId);
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
       model.addAttribute("child", child);
-      model.addAttribute("presences", presences);
+      model.addAttribute("presences", groupPresenceByWeeks(presences));
+
       return "presence/calendar.html";
   }
   //XXX SHAME ON YOU
@@ -81,5 +86,19 @@ public class PresenceController{
       return new Date();
     }
 
+  }
+
+  private Map<Date, List<Presence>> groupPresenceByWeeks(List<Presence> presences){
+    return presences
+    .stream()
+    .collect(Collectors.groupingBy((presence) -> this.firstDayOfWeek(presence.getDate())));
+  }
+
+  private Date firstDayOfWeek(Date date){
+    var firstDayOfWeek = Calendar.getInstance().getFirstDayOfWeek();
+    var firstDayOfWeekDate = Calendar.getInstance();
+    firstDayOfWeekDate.setTime(date);
+    firstDayOfWeekDate.set(Calendar.DAY_OF_WEEK, firstDayOfWeek);
+    return firstDayOfWeekDate.getTime();
   }
 }
