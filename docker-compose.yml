@@ -7,11 +7,11 @@ services:
       - garderie_db
     ports:
       - 8090:8080
-    command: './gradlew bootRun'
+    command: './gradlew bootRun  --project-cache-dir /root/.gradle'
     working_dir: /app
     volumes:
       - .:/app
-      - ./docker_volumes/.gradle:/root/.gradle
+      - ./docker_volumes/webapp/.gradle:/root/.gradle
     environment:
       POSTGRES_HOST: garderie_db
       POSTGRES_PORT: 5432
@@ -26,7 +26,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-      - ./docker_volumes/build_webapp/.gradle_build:/root/.gradle
+      - ./docker_volumes/build_webapp/.gradle:/root/.gradle
 
   garderie_db:
       image: postgres:9.6-alpine
@@ -34,7 +34,7 @@ services:
         - 5432:5432
       container_name: garderie_db
       volumes:
-        - ./docker_volumes/pg_data:/var/lib/postgresql/data
+        - ./docker_volumes/garderie_db/pg_data:/var/lib/postgresql/data
       environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
@@ -48,7 +48,7 @@ services:
       - garderie_db
     volumes:
       - .:/app
-      - ./docker_volumes/site-packages:/site-packages
+      - ./docker_volumes/seed_generator/site-packages:/site-packages
     working_dir: /app
     command:
       sh scripts/generate_seed/run.sh
@@ -67,7 +67,7 @@ services:
       - garderie_db
     volumes:
       - .:/app
-      - ./docker_volumes/.grapes:/home/groovy/.groovy/grapes
+      - ./docker_volumes/init_presence/.grapes:/home/groovy/.groovy/grapes
     command: 'groovy scripts/init-presence.groovy'
     environment:
       POSTGRES_HOST: garderie_db
