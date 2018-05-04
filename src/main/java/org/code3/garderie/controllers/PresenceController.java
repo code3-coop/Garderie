@@ -73,7 +73,8 @@ public class PresenceController{
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
       model.addAttribute("child", child);
       model.addAttribute("presences", groupPresenceByWeeks(presences));
-
+      model.addAttribute("form", from);
+      model.addAttribute("to", to);
       return "presence/calendar.html";
   }
   //XXX SHAME ON YOU
