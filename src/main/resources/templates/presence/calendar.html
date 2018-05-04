@@ -39,13 +39,15 @@
           </div>
 
           <div>
-            <p> Nom de l'enfant :             
+            <p> Nom de l'enfant :
               <span th:text="${child.getFirstname()}"/>&nbsp;
               <span th:text="${child.getLastname()}" />
             </p>
-            <p> Nom du parent : Prénom Nom</p>
+            <p> Nom du parent :
+              <span th:text="${parents.getNom1()}"/>
+            </p>
             <p> Date : du
-              <span th:text="${from}"/> à 
+              <span th:text="${from}"/> à
               <span th:text="${to}" />
             </p>
             </div>
@@ -120,4 +122,3 @@
     </script>
   </body>
 </html>
-
