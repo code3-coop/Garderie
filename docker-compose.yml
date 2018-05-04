@@ -7,7 +7,7 @@ services:
       - garderie_db
     ports:
       - 8090:8080
-    command: './gradlew bootRun  --project-cache-dir /root/.gradle'
+    command: './gradlew bootRun --no-daemon --project-cache-dir /root/.gradle'
     working_dir: /app
     volumes:
       - .:/app
@@ -22,7 +22,7 @@ services:
 
   build_webapp:
     image: openjdk:10-jdk
-    command: './gradlew build --project-cache-dir /root/.gradle'
+    command: './gradlew build --no-daemon --project-cache-dir /root/.gradle'
     working_dir: /app
     volumes:
       - .:/app
