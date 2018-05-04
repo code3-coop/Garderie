@@ -53,12 +53,13 @@ public class PresenceController{
                        @ModelAttribute("state") String state,
                        @ModelAttribute("date") String date,
                        @ModelAttribute("absenceReason") String absenceReason,
+                       @ModelAttribute("dayPart") String dayPart,
                        HttpSession session){
-    log.debug("update {}, {}, {}", child_id, date, absenceReason);
+    log.debug("update {}, {}, {}, {}", child_id, date, absenceReason, dayPart);
 
     String username = (String) session.getAttribute("username");
     var child = childRepository.getChildById(child_id);
-    var presence = new Presence(toDate(date), state, child, absenceReason, username);
+    var presence = new Presence(toDate(date), state, child, absenceReason, username, dayPart);
     presenceRepository.createOrUpdate(presence);
 
     return "redirect:/presence";

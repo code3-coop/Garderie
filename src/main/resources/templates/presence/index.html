@@ -47,6 +47,7 @@
               <div class="card-body">
 
                 <form th:action="@{/presence}" method="POST">
+                  <input type="hidden" name="dayPart" th:value="am"/>
                   <input type="hidden" name="state" th:value="${presence.getState()} == 'P' ? 'A' : 'P'"/>
                   <input type="hidden" name="child_id" th:value="${presence.getChild().getId()}"/>
                   <input type="hidden" name="date" th:value="${todayAsString}"/>

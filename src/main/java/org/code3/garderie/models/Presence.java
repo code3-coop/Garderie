@@ -9,13 +9,15 @@ public class Presence{
   private String absence_reason;
   private Date last_modification;
   private String author;
+  private String day_part;
 
-  public Presence(Date date, String state, Child child, String absence_reason, String author){
+  public Presence(Date date, String state, Child child, String absence_reason, String author, String day_part){
     this.date = date;
     this.state = state;
     this.child = child;
     this.absence_reason = absence_reason;
     this.author = author;
+    this.day_part = day_part;
   }
   public Date getDate(){
     return date;
@@ -32,6 +34,9 @@ public class Presence{
   public String getAuthor(){
     return author;
   }
+  public String getDayPart(){
+    return day_part;
+  }
 
   @Override
   public String toString(){
@@ -43,6 +48,7 @@ public class Presence{
     sb.append("  absence_reason" + absence_reason + "\n");
     sb.append("  last_modification" + last_modification + "\n");
     sb.append("  author" + author + "\n");
+    sb.append("  day_part" + day_part + "\n");
     return sb.toString();
   }
 }

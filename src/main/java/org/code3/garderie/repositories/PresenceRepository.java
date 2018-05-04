@@ -23,7 +23,8 @@ public class PresenceRepository {
     "  p.child_id, "+
     "  p.absence_reason, "+
     "  p.author, " +
-    " p.last_modification " +
+    "  p.last_modification, " +
+    "  p.day_part " +
     "from presence p " +
     "join child c on c.id = p.child_id " +
     "where date = :date " +
@@ -39,7 +40,8 @@ public class PresenceRepository {
     " state = :state," +
     " absence_reason = :absence_reason, " +
     " author = :author, "+
-    " last_modification = :last_modification " +
+    " last_modification = :last_modification, " +
+    " day_part = :day_part " +
     "where "+
     "date = :date and " +
     "child_id = :child_id;";
@@ -51,7 +53,8 @@ public class PresenceRepository {
     "  child_id," +
     "  absence_reason," +
     "  author, " +
-    "  last_modification " +
+    "  last_modification, " +
+    "  day_part " +
     "from presence where " +
     "date = :date and " +
     "child_id = :child_id;";
@@ -64,7 +67,8 @@ public class PresenceRepository {
     "  child_id," +
     "  absence_reason,"+
     "  author," +
-    "  last_modification " +
+    "  last_modification, " +
+    "  day_part " +
     " ) values ("+
     "  :date,"+
     "  :state,"+
@@ -72,6 +76,7 @@ public class PresenceRepository {
     "  :absence_reason,"+
     "  :author, " +
     "  :last_modification" +
+    "  :day_part " +
     ");";
 
   private static final String GET_PRESENCE_BY_CHILD_BETWEEN_TWO_DATES = "" +
@@ -81,7 +86,8 @@ public class PresenceRepository {
     "  state," +
     "  absence_reason," +
     "  author,"+
-    "  last_modification " +
+    "  last_modification, " +
+    "  day_part " +
     " from presence " +
     " where" +
     "  child_id = :child_id and" +
@@ -95,7 +101,8 @@ public class PresenceRepository {
       rs.getLong("child_id"),
       rs.getString("absence_reason"),
       rs.getString("author"),
-      rs.getDate("last_modification")
+      rs.getDate("last_modification"),
+      rs.getString("day_part")
     );
   };
 
@@ -135,7 +142,8 @@ public class PresenceRepository {
             presenceRow.state,
             childRow.toChild(),
             presenceRow.absence_reason,
-            presenceRow.author
+            presenceRow.author,
+            presenceRow.day_part
           );
         });
       }).collect(Collectors.toList());
@@ -158,7 +166,8 @@ public class PresenceRepository {
       "author", presence.getAuthor(),
       "state", presence.getState(),
       "absence_reason", presence.getAbsenceReason(),
-      "last_modification", new Date()
+      "last_modification", new Date(),
+      "day_part", presence.getDayPart()
     );
     namedParameterJdbcTemplate.update(stmt, params2);
 
@@ -179,7 +188,8 @@ public class PresenceRepository {
         row.state,
         child,
         row.absence_reason,
-        row.author
+        row.author,
+        row.day_part
       )).collect(Collectors.toList());
   }
 
@@ -190,14 +200,24 @@ public class PresenceRepository {
     public String absence_reason;
     public String author;
     public Date last_modification;
+    public String day_part;
 
-    PresenceRow(Date date, String state, long child_id, String absence_reason, String author, Date last_modification){
+    PresenceRow(
+      Date date,
+      String state,
+      long child_id,
+      String absence_reason,
+      String author,
+      Date last_modification,
+      String day_part
+    ){
       this.date = date;
       this.state = state;
       this.child_id = child_id;
       this.absence_reason = absence_reason;
       this.author = author;
       this.last_modification = last_modification;
+      this.day_part = day_part;
     }
   }
 
