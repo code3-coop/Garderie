@@ -39,13 +39,13 @@
           </div>
 
           <div>
-            <p> Nom de l'enfant :             
+            <p> Nom de l'enfant :
               <span th:text="${child.getFirstname()}"/>&nbsp;
               <span th:text="${child.getLastname()}" />
             </p>
             <p> Nom du parent : Prénom Nom</p>
             <p> Date : du
-              <span th:text="${from}"/> à 
+              <span th:text="${from}"/> à
               <span th:text="${to}" />
             </p>
             </div>
@@ -99,8 +99,9 @@
               </tbody>
             </table>
             <ul>
-              <li th:each=" presence : ${presences}">
-                <span th:text="${presence.date}"/>
+              <li th:each=" dateToPresences : ${presences}">
+                <!-- dateToPresences (map(Date to List(Presence))) -->
+                <span th:text="${dateToPresences.key}"/>
                 &nbsp;
                 <span >
               </li>
@@ -120,4 +121,3 @@
     </script>
   </body>
 </html>
-
