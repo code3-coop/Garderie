@@ -1,13 +1,123 @@
-<body>
-  <div>
-    <span th:text="${child.getFirstname()}"/>&nbsp;
-    <span th:text="${child.getLastname()}" />
-  </div>
-  <ul>
-    <li th:each=" presence : ${presences}">
-      <span th:text="${presence.date}"/>
-      &nbsp;
-      <span th:text="${presence.status}">
-    </li>
-  </ul>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+  </head>
+  <body>
+     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Garde & riz</a>
+      <input class="form-control form-control-dark w-100" type="text" placeholder="Recherche" aria-label="Recherche">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Déconnexion</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div th:replace="fragments/menu :: menu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1>Fiche d'assiduité</h1>
+
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Exporter</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div>
+            <p> Nom de l'enfant :             
+              <span th:text="${child.getFirstname()}"/>&nbsp;
+              <span th:text="${child.getLastname()}" />
+            </p>
+            <p> Nom du parent : Prénom Nom</p>
+            <p> Date : du
+              <span th:text="${from}"/> à 
+              <span th:text="${to}" />
+            </p>
+            </div>
+          <div>
+            <div class="card"  style="width: 18rem; font-size:0.9em;">
+              <div class="card-body">
+                <h5 class="card-title">Légende</h5>
+                <table>
+                  <tr>
+                    <td>
+                      <p><strong>P</strong> : Présence 1 jour</p>
+                      <p><strong>A</strong> : Absence 1 jour</p>
+                      <p><strong>P-AM</strong> : Présence AM</p>
+                      <p><strong>P-PM</strong> : Présence PM</p>
+                    </td>
+                    <td><p></p></td>
+                    <td>
+                      <p><strong>A-AM</strong> : Absence AM</p>
+                      <p><strong>A-PM</strong> : Absence PM</p>
+                      <p><strong>F</strong> : Journée fériée</p>
+                      <p></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Semaine débutant le </th>
+                  <th>Lundi</th>
+                  <th>Mardi</th>
+                  <th>Mercredi</th>
+                  <th>Jeudi</th>
+                  <th>Vendredi</th>
+                  <th>Samedi</th>
+                  <th>Dimanche</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td>P</td>
+                  <td>A</td>
+                  <td>P</td>
+                  <td>P</td>
+                  <td>P</td>
+                  <td>P</td>
+                  <td>P</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul>
+              <li th:each=" presence : ${presences}">
+                <span th:text="${presence.date}"/>
+                &nbsp;
+                <span >
+              </li>
+            </ul>
+          </div>
+
+        </main>
+      </div>
+    </div>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="/js/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
+

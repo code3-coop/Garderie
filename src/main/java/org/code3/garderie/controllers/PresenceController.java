@@ -74,6 +74,8 @@ public class PresenceController{
       model.addAttribute("child", child);
       model.addAttribute("presences", presences);
       model.addAttribute("parents", parents);
+      model.addAttribute("from", from);
+      model.addAttribute("to", to);
       return "presence/calendar.html";
   }
   //XXX SHAME ON YOU

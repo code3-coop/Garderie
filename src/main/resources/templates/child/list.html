@@ -28,7 +28,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Listes d'enfants</h1>
+            <h1>Listes d'enfants</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Partager</button>
@@ -42,16 +42,22 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>Prénom</th>
                   <th>Nom</th>
+                  <th>Prénom</th>
                 </tr>
               </thead>
               <tbody >
                 <tr th:each="child : ${children}">
                   <td></td>
-                  <td th:text="${child.getFirstname()}"></td>
                   <td th:text="${child.getLastname()}"></td>
+                  <td th:text="${child.getFirstname()}"></td>
+                  <td>Fiche d'assiduité en date du 
+                    <select class="form-control">
+                      <option>30 avril 2018</option>
+                      <option>28 mai 2018</option>
+                    </select>
+                    <a th:href="@{/presence/{id}/2018-05-01/2018-05-30/(id= ${child.getId()})}">Obtenir</a>
+                  </td>
                 </tr>
               </tbody>
             </table>
