@@ -28,6 +28,9 @@ public class PresenceController{
   private PresenceRepository presenceRepository;
 
   @Autowired
+  private ParentsRepository parentsRepository;
+
+  @Autowired
   private ChildRepository childRepository;
 
   @Autowired
@@ -71,9 +74,11 @@ public class PresenceController{
       log.debug("getPresenceByChildBetweenTwoDate {} {} {}", childId, from, to);
       var child = childRepository.getChildById(childId);
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
+      var parents = parentsRepository.getParentsByChild(child);
       model.addAttribute("child", child);
       model.addAttribute("presences", groupPresenceByWeeks(presences));
-      model.addAttribute("form", from);
+      model.addAttribute("parents", parents);
+      model.addAttribute("from", from);
       model.addAttribute("to", to);
       return "presence/calendar.html";
   }
