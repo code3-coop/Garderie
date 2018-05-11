@@ -75,7 +75,7 @@ def createInsertChildSQL(child_id, kid_firstname, kid_name, kid_birthdate, image
     return "insert into child (id, firstname, lastname, birthdate, image_url, parents, group_id) values (%d,'%s','%s','%s','%s',%d,%d);" % (child_id, kid_firstname, kid_name, kid_birthdate, image_url, parent_id, group_id)
 
 def createInsertAttendanceSQL(current_date,state,child_id,reason,last_modification,author):
-    return "insert into presence (date, state, child_id, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,current_date,author)
+    return "insert into presence (date, state, child_id, absence_reason, last_modification, author) values ('%s','%s',%d,'%s','%s','%s');" % (current_date,state,child_id,reason,last_modification,author)
 
 def resetDatabase():
     conn = psycopg2.connect(dbname=os.environ["POSTGRES_DB"], user=os.environ.get("POSTGRES_USERNAME"), password=os.environ.get("POSTGRES_PASSWORD"), host=os.environ.get("POSTGRES_HOST"), port=os.environ.get("POSTGRES_PORT"))
@@ -128,10 +128,14 @@ if __name__ == '__main__':
             delta = last_day - first_day
             for j in range(delta.days + 1):
                 current_date = first_day + datetime.timedelta(days=j)
-                state = getRandomState()
+                if current_date.weekday() > 4:
+                    state = "W"
+                elif current_date == datetime.date(2018, 5, 21):
+                    state = "F"
+                else:
+                    state = getRandomState()
                 reason = getRandomReason(state,absence_reasons)
-                queries.append(createInsertAttendanceSQL(current_date,state,child_id,reason,current_date,group["educator"]))
-
+                queries.append(createInsertAttendanceSQL(current_date,state,child_id,reason,now,group["educator"]))
             parent_id += 1
             child_id +=1
 
