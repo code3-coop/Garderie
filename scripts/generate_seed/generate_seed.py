@@ -36,7 +36,7 @@ def getRangeDate(now):
     month = now.month
     year = now.year
     (_,num_days) = calendar.monthrange(year, month)
-    first_day = datetime.date(year, month, 1)
+    first_day = datetime.date(year, 1, 1)
     last_day = datetime.date(year, month, num_days)
     return first_day,last_day
 
