@@ -31,4 +31,20 @@ public class ChildController {
 
     return "/child/list";
   }
+
+  List<Date> generateListOfPresencePeriods(){
+
+    //get first day of the year
+    var firstDayOfYear = Calendar.getInstance();
+    var d = new Date();
+    firstDayOfYear.setTime(d);
+    firstDayOfYear.set(Calendar.DAY_OF_MONTH, 1);
+    firstDayOfYear.set(Calendar.MONTH, 0);
+
+    //Then fetch the first day of week after this year
+
+    // generate list of start of period after this
+    //periods are 4 weeks long
+
+  }
 }
