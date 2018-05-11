@@ -18,6 +18,9 @@ import java.util.Calendar;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Comparator;
+import java.util.TreeMap;
 
 @Controller
 public class PresenceController{
@@ -83,6 +86,7 @@ public class PresenceController{
       model.addAttribute("to", to);
       return "presence/calendar.html";
   }
+
   //XXX SHAME ON YOU
   private Date toDate(String dateAsString){
     try{
@@ -96,9 +100,14 @@ public class PresenceController{
   }
 
   private Map<Date, List<Presence>> groupPresenceByWeeks(List<Presence> presences){
-    return presences
+    var m = presences
     .stream()
     .collect(Collectors.groupingBy((presence) -> this.firstDayOfWeek(presence.getDate())));
+
+    var sortedMap = new TreeMap<Date, List<Presence>>(Comparator.comparing(Date::getTime));
+    sortedMap.putAll(m);
+    return sortedMap;
+
   }
 
   private Date firstDayOfWeek(Date date){

@@ -17,7 +17,7 @@
       <input class="form-control form-control-dark w-100" type="text" placeholder="Recherche" aria-label="Recherche">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Déconnexion</a>
+          <a class="nav-link" href="/logout">Déconnexion</a>
         </li>
       </ul>
     </nav>
@@ -32,7 +32,7 @@
 
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Exporter</button>
+                <button class="btn btn-sm btn-outline-secondary">Imprimer</button>
               </div>
             </div>
 
@@ -45,17 +45,19 @@
             </p>
             <p> Nom du parent :
               <span th:text="${parents.getName1()}"/>
+              et
+              <span th:text="${parents.getName2()}"/>
             </p>
             <p> Date : du
-              <span th:text="${from}"/> à
-              <span th:text="${to}" />
+              <span th:text="${{#dates.format(from, 'dd MMM yyyy')}}"/> au
+              <span th:text="${{#dates.format(to, 'dd MMM yyyy')}}" />
             </p>
             </div>
           <div>
             <div class="card"  style="width: 18rem; font-size:0.9em;">
               <div class="card-body">
                 <h5 class="card-title">Légende</h5>
-                <table>
+                <table style="width:600px;">
                   <tr>
                     <td>
                       <p><strong>P</strong> : Présence 1 jour</p>
@@ -78,25 +80,23 @@
               <thead>
                 <tr>
                   <th>Semaine débutant le </th>
+                  <th>Dimanche</th>
                   <th>Lundi</th>
                   <th>Mardi</th>
                   <th>Mercredi</th>
                   <th>Jeudi</th>
                   <th>Vendredi</th>
                   <th>Samedi</th>
-                  <th>Dimanche</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td>P</td>
-                  <td>A</td>
-                  <td>P</td>
-                  <td>P</td>
-                  <td>P</td>
-                  <td>P</td>
-                  <td>P</td>
+                <tr th:each=" dateToPresences : ${presences}">
+                  <td>
+                    <span th:text="${{#dates.format(dateToPresences.key, 'dd MMM yyyy')}}"/>
+                  </td>
+                  <td th:each="presence : ${dateToPresences.value}">
+                    <span th:text="${presence.state}"></span> 
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -104,6 +104,12 @@
               <li th:each=" dateToPresences : ${presences}">
                 <!-- dateToPresences (map(Date to List(Presence))) -->
                 <span th:text="${dateToPresences.key}"/>
+                  <ul>
+                    <li th:each="presence : ${dateToPresences.value}">
+                      <span th:text="${presence.state}"></span> 
+                      <span th:text="${presence.date}"></span> 
+                    </li>
+                  </ul>
                 &nbsp;
                 <span >
               </li>
