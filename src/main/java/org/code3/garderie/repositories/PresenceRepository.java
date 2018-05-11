@@ -91,8 +91,8 @@ public class PresenceRepository {
     " from presence " +
     " where" +
     "  child_id = :child_id and" +
-    "  date > :from and" +
-    "  date < :to;";
+    "  date >= :from and" +
+    "  date <= :to;";
 
   private final RowMapper<PresenceRow> presenceRowMapper = (rs, rowNum) -> {
     return new PresenceRow(
