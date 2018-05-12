@@ -10,6 +10,12 @@ body {
 #main{
   
 }
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
 .card{
   flex:none !important;
   border:0px solid #000 !important;

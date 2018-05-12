@@ -17,7 +17,7 @@
       <input class="form-control form-control-dark w-100" type="text" placeholder="Recherche" aria-label="Recherche">
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Déconnexion</a>
+          <a class="nav-link" href="/logout">Déconnexion</a>
         </li>
       </ul>
     </nav>
@@ -51,10 +51,10 @@
                   <td></td>
                   <td th:text="${child.getLastname()}"></td>
                   <td th:text="${child.getFirstname()}"></td>
-                  <td>Fiche d'assiduité en date du 
-                    <select>
-                      <option>30 avril 2018</option>
-                      <option>28 mai 2018</option>
+                  <td>Fiche d'assiduité en date du
+                    <select class="form-control">
+                      <option value="">30 avril 2018</option>
+                      <option value="">28 mai 2018</option>
                     </select>
                     <a th:href="@{/presence/{id}/2018-05-01/2018-05-30/(id= ${child.getId()})}">Obtenir</a>
                   </td>
