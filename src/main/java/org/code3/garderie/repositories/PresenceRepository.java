@@ -30,7 +30,7 @@ public class PresenceRepository {
     "where date = :date " +
     "and c.group_id = :groupId " +
     "order by " +
-    " firstname;";
+    " firstname, lastname;";
 
   private static final String GET_CHILDREN_IN_LIST = "" +
     "select id, firstname, lastname, image_url from child where id in (:childrenIds)";
