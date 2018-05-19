@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Comparator;
 import java.util.TreeMap;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 @Controller
 public class PresenceController{
@@ -68,22 +72,25 @@ public class PresenceController{
     return "redirect:/presence";
   }
 
-  @GetMapping("/presence/{child_id}/{from}/{to}")
-  public String getPresenceByChildBetweenTwoDate(
+  @GetMapping("/presence/{child_id}")
+  public String getPresenceByChildForPeriod(
     @PathVariable("child_id") Long childId,
-    @PathVariable("from") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date from,
-    @PathVariable("to") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date to,
+    @RequestParam(required= true, value="period_start") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date periodStart,
     ModelMap model
   ){
-      log.debug("getPresenceByChildBetweenTwoDate {} {} {}", childId, from, to);
+      log.debug("getPresenceByChildBetweenTwoDate {} {}", childId, periodStart);
       var child = childRepository.getChildById(childId);
-      var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, from, to);
+
+      var periodEndLocalDate = periodStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plus(14, ChronoUnit.DAYS);
+      var periodEnd = Date.from(periodEndLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+      var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, periodStart, periodEnd);
       var parents = parentsRepository.getParentsByChild(child);
       model.addAttribute("child", child);
       model.addAttribute("presences", groupPresenceByWeeks(presences));
       model.addAttribute("parents", parents);
-      model.addAttribute("from", from);
-      model.addAttribute("to", to);
+      model.addAttribute("from", periodStart);
+      model.addAttribute("to", periodEnd);
       return "presence/calendar.html";
   }
 
