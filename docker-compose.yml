@@ -7,7 +7,7 @@ services:
       - garderie_db
     ports:
       - 8090:8080
-    command: './gradlew bootRun --no-daemon --project-cache-dir /root/.gradle'
+    command: './gradlew  bootRun --project-cache-dir /root/.gradle'
     working_dir: /app
     volumes:
       - .:/app
@@ -19,14 +19,6 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: garderie
     restart: always
-
-  build_webapp:
-    image: openjdk:10-jdk
-    command: './gradlew build --no-daemon --project-cache-dir /root/.gradle'
-    working_dir: /app
-    volumes:
-      - .:/app
-      - ./docker_volumes/build_webapp/.gradle:/root/.gradle
 
   garderie_db:
       image: postgres:9.6-alpine
