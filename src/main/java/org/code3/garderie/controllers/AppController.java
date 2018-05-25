@@ -29,4 +29,13 @@ public class AppController {
     return "redirect:/presence";
   }
 
+  @GetMapping("/accueil")
+  public String accueil(HttpSession session) {
+    log.debug("index");
+    if(session.getAttribute("username") == null){
+      return "redirect:/login";
+    }
+    return "accueil/index";
+  }
+
 }
