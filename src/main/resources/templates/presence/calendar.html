@@ -94,7 +94,7 @@
                     <span th:text="${{#dates.format(dateToPresences.key, 'dd MMM yyyy')}}"/>
                   </td>
                   <td th:each="presence : ${dateToPresences.value}">
-                    <span th:text="${presence.state}"></span> 
+                    <span th:text="${presence.state == 'W'}? '' : ${presence.state}"></span> 
                   </td>
                 </tr>
               </tbody>
