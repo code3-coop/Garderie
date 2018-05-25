@@ -1,4 +1,4 @@
-<nav class="col-md-2 d-none d-md-block sidebar" th:fragment="menu">
+<nav class="col-md-2 d-none d-md-block sidebar d-print-none" th:fragment="menu">
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
       <li class="nav-item">
@@ -8,29 +8,18 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/child/list">
+        <a class="nav-link" href="/presence">
           <span data-feather="users"></span>
-          Mes enfants
+          Prise de présence
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/child/list">
-          <span data-feather="users"></span>
+          <span data-feather="file-text"></span>
           Fiches d'assiduités
         </a>
       </li>
     </ul>
 
-    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-      <span>Liens rapides</span>
-    </h6>
-    <ul class="nav flex-column mb-2">
-      <li class="nav-item">
-        <a class="nav-link active" href="/presence">
-          <span data-feather="file-text"></span>
-          Prise de présence <span class="sr-only">(current)</span>
-        </a>
-      </li>
-    </ul>
   </div>
 </nav>
