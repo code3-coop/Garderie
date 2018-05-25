@@ -32,7 +32,7 @@
 
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Imprimer</button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="window.print()">Imprimer</button>
               </div>
             </div>
 
@@ -40,15 +40,14 @@
 
           <div>
             <p> Nom de l'enfant :
-              <span th:text="${child.getFirstname()}"/>&nbsp;
-              <span th:text="${child.getLastname()}" />
+              <span th:text="${child.getFirstname()}"/>&nbsp;<span th:text="${child.getLastname()}" />
             </p>
-            <p> Nom du parent :
+            <p> Nom des parents :
               <span th:text="${parents.getName1()}"/>
               et
               <span th:text="${parents.getName2()}"/>
             </p>
-            <p> Date : du
+            <p> Période : du
               <span th:text="${{#dates.format(from, 'dd MMM yyyy')}}"/> au
               <span th:text="${{#dates.format(to, 'dd MMM yyyy')}}" />
             </p>
@@ -100,20 +99,6 @@
                 </tr>
               </tbody>
             </table>
-            <ul>
-              <li th:each=" dateToPresences : ${presences}">
-                <!-- dateToPresences (map(Date to List(Presence))) -->
-                <span th:text="${dateToPresences.key}"/>
-                  <ul>
-                    <li th:each="presence : ${dateToPresences.value}">
-                      <span th:text="${presence.state}"></span> 
-                      <span th:text="${presence.date}"></span> 
-                    </li>
-                  </ul>
-                &nbsp;
-                <span >
-              </li>
-            </ul>
           </div>
 
         </main>
