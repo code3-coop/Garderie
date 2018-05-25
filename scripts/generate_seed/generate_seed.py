@@ -5,7 +5,7 @@ import datetime, calendar, sys, random, os, psycopg2, time
 #= Generate sample data
 #=======================
 
-family_names      = ['Tremblay','Gagnon','Roy','Bouchard','Gauthier','Morin','Lavoie','Fortin','Gagné','Nadeau','Leclerc','Desjardins','Boudreau','Paradis']
+family_names      = ['Tremblay','Gagnon','Roy','Bouchard','Gauthier','Morin','Lavoie','Fortin','Gagné','Nadeau','Leclerc','Desjardins','Boudreau','Paradis','Boyer']
 female_firstnames = ['Stéphanie','Vanessa','Catherine','Nadine','Caroline','Annie']
 male_firstnames   = ['Maxime','Alexandre','Jonathan','Mathieu','David','Simon','Sébastien','Vincent','Michael','Samuel']
 child_firstnames  = [['William','Nathan','Thomas','Jacob','Olivier','Felix','Antoine','Liam','Noah','Xavier'],
