@@ -51,11 +51,12 @@
                   <td th:text="${child.getLastname()}"></td>
                   <td th:text="${child.getFirstname()}"></td>
                   <td>Fiche d'assiduité en date du
-                    <select>
-                      <option value="">30 avril 2018</option>
-                      <option value="">28 mai 2018</option>
-                    </select>
-                    <a th:href="@{/presence/{id}/2018-05-01/2018-05-30/(id= ${child.getId()})}">Obtenir</a>
+                    <form th:action="@{/presence/{child_id}(child_id=${child.getId()})}" method="GET">
+                      <select name="period_start" class="form-control">
+                        <option  th:value="${{#dates.format(period, 'yyyy-MM-dd')}}" th:each="period : ${periods}" th:text="${{#dates.format(period, 'dd MMM yyyy')}}"></option>
+                      </select>
+                      <input type="submit" value="Obtenir">
+                    </form>
                   </td>
                 </tr>
               </tbody>

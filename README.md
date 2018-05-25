@@ -9,11 +9,11 @@ Prerequis
 
 Run (and watch to restart the app)
 -------------
-    docker-compose up webapp
+  sh start.sh
 
 Build (that could trigger a restart of the app in the other terminal)
 ------------
-  docker-compose up build_webapp
+  sh build.sh
 
 Once the app is started you may want to load the seed data into you local database.
 
