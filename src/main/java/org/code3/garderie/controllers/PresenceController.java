@@ -81,7 +81,7 @@ public class PresenceController{
       log.debug("getPresenceByChildBetweenTwoDate {} {}", childId, periodStart);
       var child = childRepository.getChildById(childId);
 
-      var periodEndLocalDate = periodStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plus(14, ChronoUnit.DAYS);
+      var periodEndLocalDate = periodStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plus(27, ChronoUnit.DAYS);
       var periodEnd = Date.from(periodEndLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
       var presences = presenceRepository.getPresenceByChildBetweenTwoDates(child, periodStart, periodEnd);
