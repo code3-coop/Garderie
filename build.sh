@@ -1,1 +1,1 @@
-docker-compose exec webapp ./gradlew
+docker-compose exec webapp ./gradlew build
