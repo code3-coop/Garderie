@@ -25,7 +25,7 @@
       <div class="row">
         <div th:replace="fragments/menu :: menu"></div>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
             <h1>Fiches d'assiduité</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
@@ -48,7 +48,7 @@
               <tbody >
                 <tr th:each="child : ${children}">
                   <td class="align-middle" style="padding:10px">
-                    <img th:src="${child.getImageUrl()}" style="width:100px; height:100px" class="rounded-circle"/>
+                    <img th:src="${child.getImageUrl()}" style="width:80px; height:80px" class="rounded-circle"/>
                   </td>
                   <td class="align-middle" style="padding:10px">
                     <span style="font-weight:bolder" th:text="${child.getFirstname() + ' ' + child.getLastname()}"></span>
