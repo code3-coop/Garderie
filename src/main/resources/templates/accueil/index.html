@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title></title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/dashboard.css" rel="stylesheet">
+
+  </head>
+  <body>
+     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Garde & riz</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="/logout">Déconnexion</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div th:replace="fragments/menu :: menu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 bg-light">
+
+          <div class="card-deck mb-3 text-center">
+
+            <div class="card mb-4 box-shadow">
+              <div class="card-body">
+                  <a class="nav-link" href="/presence">
+                    Prise de présence
+                  </a>
+                  <div class="clearfix"></div>
+              </div>
+              
+              <div class="card-body">
+                  <a class="nav-link" href="/child/list">
+                    Fiches d'assiduités
+                  </a>
+                  <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </main>
+      </div>
+    </div>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="/js/feather.min.js"></script>
+    <script>
+      feather.replace()
+      feather.users.circle.toSvg({ 'width': '100px','heigth':'100px' })
+    </script>
+  </body>
+</html>
