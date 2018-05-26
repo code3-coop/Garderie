@@ -78,7 +78,7 @@ public class PresenceController{
     @RequestParam(required= true, value="period_start") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) Date periodStart,
     ModelMap model
   ){
-      log.debug("getPresenceByChildBetweenTwoDate {} {}", childId, periodStart);
+      log.debug("getPresenceByChildForPeriod {} {}", childId, periodStart);
       var child = childRepository.getChildById(childId);
 
       var periodEndLocalDate = periodStart.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().plus(27, ChronoUnit.DAYS);
