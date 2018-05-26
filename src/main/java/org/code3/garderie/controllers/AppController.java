@@ -23,18 +23,12 @@ public class AppController {
   @GetMapping("/")
   public String index(HttpSession session) {
     log.debug("index");
-    if(session.getAttribute("username") == null){
-      return "redirect:/login";
-    }
     return "redirect:/presence";
   }
 
   @GetMapping("/accueil")
   public String accueil(HttpSession session) {
     log.debug("index");
-    if(session.getAttribute("username") == null){
-      return "redirect:/login";
-    }
     return "accueil/index";
   }
 
