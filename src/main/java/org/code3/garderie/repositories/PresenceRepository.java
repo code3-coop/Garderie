@@ -33,7 +33,7 @@ public class PresenceRepository {
     " firstname, lastname;";
 
   private static final String GET_CHILDREN_IN_LIST = "" +
-    "select id, firstname, lastname, image_url from child where id in (:childrenIds)";
+    "select id, firstname, lastname, image_url from child where id in (:childrenIds);";
 
   private static final String UPDATE_PRESENCE = "" +
     "update presence set " +
